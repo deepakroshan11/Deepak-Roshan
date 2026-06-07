@@ -11,8 +11,21 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Markdown from "react-markdown";
 import { Badge } from "@/components/ui/badge";
-import { MermaidDiagram } from "@/components/mermaid-diagram";
 import { markdownExcerpt } from "@/lib/markdown-excerpt";
+
+// Import animation components
+import { FindoraAnimation } from "@/components/ProjectAnimations/FindoraAnimation";
+import { VoxAIAnimation } from "@/components/ProjectAnimations/VoxAIAnimation";
+import { ISLAnimation } from "@/components/ProjectAnimations/ISLAnimation";
+import { CloudGuardAnimation } from "@/components/ProjectAnimations/CloudGuardAnimation";
+
+// Animation component mapping
+const animationComponents: Record<string, React.ComponentType> = {
+  FindoraAnimation,
+  VoxAIAnimation,
+  ISLAnimation,
+  CloudGuardAnimation,
+};
 
 export async function generateStaticParams() {
   return getProjectsList().map((project) => ({
@@ -119,16 +132,15 @@ export default async function WorkProjectPage({
         <Markdown>{project.description}</Markdown>
       </article>
 
-      {"architectureMermaid" in project && project.architectureMermaid ? (
+      {/* ANIMATION JOURNEY - NEW */}
+      {"animationComponent" in project && project.animationComponent ? (
         <div className="not-prose mt-10 space-y-3">
           <h2 className="text-xl font-semibold tracking-tight text-foreground">
-            Architecture
+            Journey
           </h2>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-prose">
-            High-level view of how the React client, Express API, data stores, and
-            phased AI services fit together.
-          </p>
-          <MermaidDiagram chart={project.architectureMermaid} />
+          {React.createElement(
+            animationComponents[project.animationComponent as keyof typeof animationComponents]
+          )}
         </div>
       ) : null}
 
@@ -233,3 +245,6 @@ export default async function WorkProjectPage({
     </section>
   );
 }
+
+// Add React import for createElement
+import React from "react";
