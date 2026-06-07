@@ -9,8 +9,37 @@ import { Postgresql } from "@/components/ui/svgs/postgresql";
 import { Git } from "@/components/ui/svgs/git";
 import type { ReactNode } from "react";
 
+// ============================================
+// TYPE DEFINITIONS
+// ============================================
+
 type ProjectLink = { type: string; href: string; icon: ReactNode };
 type HackathonLink = { title: string; href: string; icon: ReactNode };
+
+type Certification = {
+  name: string;
+  issuer: string;
+  year: string;
+  url?: string;
+};
+
+// SIMPLIFIED: Only the fields you want
+type Hackathon = {
+  id: string;
+  title: string;
+  achievement: string;
+  dates: string;
+  location: string;
+  team: string;
+  teamLead?: string;
+  department?: string;
+  problemStatement?: {
+    id: string;
+    title: string;
+  };
+  theme?: string;
+  links?: HackathonLink[];
+};
 
 /** Optional rich fields for `/works/[slug]` pages */
 type PortfolioProject = {
@@ -26,6 +55,10 @@ type PortfolioProject = {
   animationComponent?: string;
 };
 
+// ============================================
+// DATA EXPORT
+// ============================================
+
 export const DATA = {
   name: "Deepak Roshan",
   initials: "DR",
@@ -34,11 +67,11 @@ export const DATA = {
   locationLink: "https://www.google.com/maps/place/Coimbatore",
   description:
     "AI Engineer. I build intelligent systems — from model to cloud — and ship them live.",
-  summary: `I'm an **AI Engineer** and final-year B.E. student in **Artificial Intelligence & Machine Learning** at Sri Krishna College of Technology, Coimbatore.
+  summary: `I'm an **AI Engineer** specializing in **Artificial Intelligence, Machine Learning, and Cloud Computing**.
 
-I build and deploy end-to-end AI systems — real-time computer vision pipelines, zero-shot voice cloning, multimodal lost-and-found platforms, and self-healing AWS cloud infrastructure. Every project I ship is **live and production-ready**.
+I build and deploy end-to-end intelligent systems across computer vision, voice AI, and cloud-native applications, transforming ideas into scalable solutions designed for real-world use.
 
-My stack: **Python · FastAPI · TensorFlow · AWS · Docker · React**. I care about understanding every layer — no black-box frameworks, no shortcuts.`,
+My expertise spans **Python, FastAPI, TensorFlow, AWS, and React**, with a strong focus on building reliable, production-ready systems that bridge the gap between research and real-world impact.`,
   avatarUrl: "/me.jpeg?v=2",
   skills: [
     { name: "Python", icon: Python },
@@ -131,6 +164,31 @@ My stack: **Python · FastAPI · TensorFlow · AWS · Docker · React**. I care 
       end: "2022",
     },
   ],
+
+  // ============================================
+  // CERTIFICATIONS
+  // ============================================
+
+  certifications: [
+    {
+      name: "Claude Code in Action",
+      issuer: "Anthropic Academy",
+      year: "2026",
+      url: "https://www.anthropic.com",
+    },
+    {
+      name: "AWS Educate – Cloud Computing Foundations",
+      issuer: "Amazon Web Services",
+      year: "2025",
+      url: "https://aws.amazon.com/education/awseducate/",
+    },
+    {
+      name: "Introduction to Computer Vision with OpenCV",
+      issuer: "Coursera / OpenCV.org",
+      year: "2024",
+      url: "https://www.coursera.org",
+    },
+  ] as Certification[],
 
   projects: [
     {
@@ -325,5 +383,26 @@ The entire self-healing loop — detect → decide → remediate → notify — 
     } satisfies PortfolioProject,
   ],
 
-  hackathons: [],
+  // ============================================
+  // HACKATHONS - SIMPLIFIED VERSION
+  // ============================================
+
+  hackathons: [
+    {
+      id: "sih-2024-palladian",
+      title: "Smart India Hackathon 2024",
+      achievement: "Top 5 Finalist",
+      dates: "2024",
+      location: "Sri Krishna College of Technology, Coimbatore",
+      team: "PALLADIAN",
+      department: "CSE-AI&ML",
+      problemStatement: {
+        id: "1732",
+        title:
+          "Enhancement of Permanently Shadowed Regions (PSR) of Lunar Craters Captured by OHRC of Chandrayaan-2",
+      },
+      theme: "Space Technology",
+      links: [],
+    },
+  ] as Hackathon[],
 };

@@ -1,14 +1,16 @@
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
-import { HeroProfileAvatar } from "@/components/hero-profile-avatar";
+import { PendulumIDCard } from "@/components/pendulum-id-card";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import ContactSection from "@/components/section/contact-section";
 import HackathonsSection from "@/components/section/hackathons-section";
+import CertificationsSection from "@/components/section/certifications-section"; // ← ADD THIS
 import ProjectsSection from "@/components/section/projects-section";
 import WorkSection from "@/components/section/work-section";
 import EducationSection from "@/components/section/education-section";
+import { SkillsBubbles } from "@/components/skills-bubbles";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -18,9 +20,9 @@ const sectionTitleClass =
 export default function Page() {
   return (
     <main className="relative flex min-h-dvh w-full min-w-0 flex-col gap-10 sm:gap-12 md:gap-20 lg:gap-24">
-      {/* Hero — Magic UI: avatar + copy row; stack only on very narrow screens */}
-      <section id="hero" className="scroll-mt-24 md:scroll-mt-28">
-        <div className="flex flex-col items-start gap-4 min-[400px]:flex-row min-[400px]:items-start sm:gap-6 md:gap-8 md:justify-between">
+      {/* Hero — ID card + copy; card sits on the right, strap extends to page top */}
+      <section id="hero" className="scroll-mt-24 md:scroll-mt-28 overflow-visible">
+        <div className="flex flex-col items-start gap-6 min-[400px]:flex-row min-[400px]:items-start sm:gap-6 md:gap-8 md:justify-between overflow-visible">
           <div className="order-2 flex min-w-0 w-full flex-1 flex-col gap-3 text-left md:order-1 md:max-w-xl">
             <BlurFadeText
               delay={BLUR_FADE_DELAY}
@@ -34,18 +36,10 @@ export default function Page() {
               text={DATA.description}
             />
           </div>
-          <BlurFade
-            delay={BLUR_FADE_DELAY}
-            className="order-1 shrink-0 self-start pt-0.5 md:order-2 md:pt-1"
-          >
-            <HeroProfileAvatar
-              name={DATA.name}
-              initials={DATA.initials}
-              src={DATA.avatarUrl}
-              className="size-[7rem] border-2 border-border/80 shadow-[0_8px_30px_-8px_rgb(0_0_0/0.25)] ring-4 ring-background min-[400px]:size-[7.5rem] md:size-32 lg:size-36 dark:shadow-[0_8px_32px_-10px_rgb(0_0_0/0.55)] rounded-full"
-              imageClassName="origin-center object-[55%_28%] scale-[1.14] brightness-[1.15] contrast-[1.1] saturate-[1.06]"
-            />
-          </BlurFade>
+          {/* Pendulum ID Card — strap extends above via absolute positioning */}
+          <div className="order-1 shrink-0 self-start md:order-2 overflow-visible">
+            <PendulumIDCard />
+          </div>
         </div>
       </section>
 
@@ -87,22 +81,18 @@ export default function Page() {
       <section id="skills" className="scroll-mt-24 scroll-pt-20 md:scroll-mt-28 md:scroll-pt-24">
         <div className="flex flex-col gap-4 pt-1">
           <BlurFade delay={BLUR_FADE_DELAY * 9}>
-            <h2 className={sectionTitleClass}>Skills</h2>
+            <div className="flex flex-col gap-2">
+              <h2 className={sectionTitleClass}>Skills</h2>
+              <div className="flex items-center justify-center gap-3 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-[#c8a96e] my-2">
+                <span className="h-[1px] w-6 sm:w-8 bg-[#c8a96e]/30" />
+                Click & drag to explore
+                <span className="h-[1px] w-6 sm:w-8 bg-[#c8a96e]/30" />
+              </div>
+            </div>
           </BlurFade>
-          <div className="flex w-full flex-wrap gap-2">
-            {DATA.skills.map((skill, id) => (
-              <BlurFade key={skill.name} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
-                <div className="flex min-h-8 w-fit max-w-full items-center gap-2 rounded-xl border border-border bg-background px-3 py-1.5 ring-2 ring-border/20 sm:h-8 sm:px-4 sm:py-0">
-                  {skill.icon && (
-                    <skill.icon className="size-4 shrink-0 overflow-hidden rounded object-contain" />
-                  )}
-                  <span className="break-words text-sm font-medium text-foreground [overflow-wrap:anywhere]">
-                    {skill.name}
-                  </span>
-                </div>
-              </BlurFade>
-            ))}
-          </div>
+          <BlurFade delay={BLUR_FADE_DELAY * 10}>
+            <SkillsBubbles />
+          </BlurFade>
         </div>
       </section>
 
@@ -131,8 +121,15 @@ export default function Page() {
         </BlurFade>
       </section>
 
+      {/* ← CERTIFICATIONS SECTION ADDED HERE */}
+      <section id="certifications" className="scroll-mt-24 md:scroll-mt-28">
+        <BlurFade delay={BLUR_FADE_DELAY * 14}>
+          <CertificationsSection />
+        </BlurFade>
+      </section>
+
       <section id="contact" className="scroll-mt-24 md:scroll-mt-28 pb-6">
-        <BlurFade delay={BLUR_FADE_DELAY * 16}>
+        <BlurFade delay={BLUR_FADE_DELAY * 15}>
           <ContactSection />
         </BlurFade>
       </section>
