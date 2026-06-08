@@ -11,6 +11,8 @@ import ProjectsSection from "@/components/section/projects-section";
 import WorkSection from "@/components/section/work-section";
 import EducationSection from "@/components/section/education-section";
 import { SkillsBubbles } from "@/components/skills-bubbles";
+import ParenthesesParticles from "@/components/parentheses-particles";
+import Footer from "@/components/footer";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -43,7 +45,14 @@ export default function Page() {
         </div>
       </section>
 
-      <section id="about" className="scroll-mt-24 md:scroll-mt-28">
+      <section id="about" className="relative scroll-mt-24 md:scroll-mt-28">
+        {/* Floating Particles in the Left Margin (positioned deep in the page corner with wider 3D projection canvas) */}
+        <div className="absolute left-[-380px] top-[-50px] w-[280px] h-[380px] hidden xl:block pointer-events-auto">
+          <BlurFade delay={BLUR_FADE_DELAY * 4.5}>
+            <ParenthesesParticles />
+          </BlurFade>
+        </div>
+
         <div className="flex flex-col gap-4 md:gap-5">
           <BlurFade delay={BLUR_FADE_DELAY * 3}>
             <h2 className={sectionTitleClass}>About</h2>
@@ -133,6 +142,8 @@ export default function Page() {
           <ContactSection />
         </BlurFade>
       </section>
+
+      <Footer />
     </main>
   );
 }

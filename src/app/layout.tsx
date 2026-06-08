@@ -108,7 +108,7 @@ export default function RootLayout({
                 className="h-full w-full"
                 squareSize={2}
                 gridGap={2}
-                color="rgb(21, 128, 61)"
+                color="rgb(30, 70, 140)"
                 maxOpacity={0.35}
                 style={{
                   maskImage: "linear-gradient(to bottom, black, transparent)",

@@ -416,20 +416,20 @@ export function SkillsBubbles() {
   return (
     <div
       ref={areaRef}
-      className="relative w-full h-[280px] xs:h-[360px] md:h-[430px] overflow-hidden rounded-2xl border border-[#c8a96e]/20 dark:border-[#c8a96e]/30 bg-muted/20 dark:bg-[#0d1b2a]/40 backdrop-blur-md shadow-2xl touch-none select-none"
+      className="relative w-full h-[280px] xs:h-[360px] md:h-[430px] overflow-hidden rounded-2xl border border-border bg-muted/20 dark:bg-[#0d1b2a]/40 backdrop-blur-md shadow-2xl touch-none select-none"
     >
       {/* Background glow */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
         style={{
-          background: "radial-gradient(ellipse 55% 35% at 50% 0%, rgba(200, 169, 110, .08), transparent 65%)",
+          background: "radial-gradient(ellipse 55% 35% at 50% 0%, rgba(144, 165, 180, 0.05), transparent 65%)",
         }}
       />
 
       {/* Sound Toggle Button */}
       <button
         onClick={() => setSoundOn((prev) => !prev)}
-        className="absolute bottom-4 right-4 z-50 p-2.5 rounded-full border border-[#c8a96e]/30 bg-[#0d1b2a]/80 dark:bg-[#162235]/90 backdrop-blur-md hover:border-[#c8a96e]/70 transition-all text-[#c8a96e] hover:scale-105 active:scale-95 shadow-md flex items-center justify-center cursor-pointer"
+        className="absolute bottom-4 right-4 z-50 p-2.5 rounded-full border border-border bg-[#0d1b2a]/80 dark:bg-[#162235]/90 backdrop-blur-md hover:border-foreground/50 transition-all text-foreground hover:scale-105 active:scale-95 shadow-md flex items-center justify-center cursor-pointer"
         title={soundOn ? "Mute sounds" : "Unmute sounds"}
       >
         {soundOn ? <Volume2 className="h-4.5 w-4.5" /> : <VolumeX className="h-4.5 w-4.5" />}
