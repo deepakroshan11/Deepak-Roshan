@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface Point {
   x: number;
@@ -19,32 +19,32 @@ interface Particle {
   targetX: number;
   targetY: number;
   targetZ: number;
-  leftBrace: boolean;
-  springK: number; // individual spring coefficient for speed variance
-  alwaysFloat?: boolean; // if true, this particle stays in floating state and doesn't gather
+  springK: number;
+  alwaysFloat?: boolean;
 }
 
-function generateParenthesisPoints(count: number, width: number, height: number, isLeft: boolean): Point[] {
+function generateInfinityPoints(count: number, width: number, height: number): Point[] {
   const points: Point[] = [];
-  const h = height;
-  const w = width;
+  const a = width * 0.45; // scale width
 
   for (let i = 0; i < count; i++) {
-    const t = i / (count - 1 || 1);
-    const angle = (t - 0.5) * (Math.PI * 0.72); // smooth arc span
-    const pt = {
-      x: -Math.cos(angle) * w + w * 0.6,
-      y: Math.sin(angle) * (h / 2),
-    };
-    if (!isLeft) {
-      pt.x = -pt.x;
-    }
-    points.push(pt);
+    const t = (i / count) * Math.PI * 2;
+    const sinT = Math.sin(t);
+    const cosT = Math.cos(t);
+    const denom = 1 + sinT * sinT;
+
+    // Lemniscate of Bernoulli equations for a figure-eight on its side
+    const x = (a * cosT) / denom;
+    // Scale y slightly to make the loop height look perfectly proportioned
+    const y = (a * sinT * cosT * 1.55) / denom;
+
+    points.push({ x, y });
   }
+
   return points;
 }
 
-export default function ParenthesesParticles({ isGathered = false }: { isGathered?: boolean }) {
+export default function InfinityParticles({ isGathered = false }: { isGathered?: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
@@ -56,7 +56,7 @@ export default function ParenthesesParticles({ isGathered = false }: { isGathere
     isGatheredRef.current = isGathered;
   }, [isGathered]);
 
-  const PARTICLE_COUNT = 1400; // Refined density for tiny, polished particles
+  const PARTICLE_COUNT = 1400;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -74,69 +74,56 @@ export default function ParenthesesParticles({ isGathered = false }: { isGathere
       }
       canvas.width = width;
       canvas.height = height;
-      
-      // Re-map target positions based on new dimensions
+
       updateTargets(width, height);
     };
 
     const updateTargets = (w: number, h: number) => {
-      const braceH = Math.min(h * 0.70, 240); // scaled down relative to canvas to avoid edge clipping
-      const braceW = Math.min(w * 0.16, 44);  // curve depth
-      const gap = Math.min(w * 0.25, 70);    // gap between left and right parenthesis
+      const infinityH = Math.min(h * 0.70, 220);
+      const infinityW = Math.min(w * 0.75, 220);
 
-      const leftPoints = generateParenthesisPoints(PARTICLE_COUNT / 2, braceW, braceH, true);
-      const rightPoints = generateParenthesisPoints(PARTICLE_COUNT / 2, braceW, braceH, false);
+      const infinityPoints = generateInfinityPoints(PARTICLE_COUNT, infinityW, infinityH);
 
       const cx = w / 2;
       const cy = h / 2;
 
       particlesRef.current.forEach((p, idx) => {
-        // Scatter targets randomly inside a 3D sphere for thick 3D depth coverage
-        const spread = 12; // slightly tighter spread for clean boundaries
+        const spread = 9; // smooth outline width
         const angle = Math.random() * Math.PI * 2;
         const radius = Math.random() * spread;
         const offsetX = Math.cos(angle) * radius;
         const offsetY = Math.sin(angle) * radius;
-        const offsetZ = (Math.random() - 0.5) * 45; // 3D depth thickness spread
+        const offsetZ = (Math.random() - 0.5) * 45;
 
-        if (p.leftBrace) {
-          const pt = leftPoints[idx] || { x: 0, y: 0 };
-          p.targetX = cx - gap + pt.x + offsetX;
-          p.targetY = cy + pt.y + offsetY;
-          p.targetZ = offsetZ;
-        } else {
-          const pt = rightPoints[idx - PARTICLE_COUNT / 2] || { x: 0, y: 0 };
-          p.targetX = cx + gap + pt.x + offsetX;
-          p.targetY = cy + pt.y + offsetY;
-          p.targetZ = offsetZ;
-        }
+        const pt = infinityPoints[idx] || { x: 0, y: 0 };
+        p.targetX = cx + pt.x + offsetX;
+        p.targetY = cy + pt.y + offsetY;
+        p.targetZ = offsetZ;
       });
     };
 
-    // Initialize particles
     const particles: Particle[] = [];
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const isAlwaysFloat = i % 8 === 0; // ~12.5% of particles always float for background depth
-      const isSlowConformer = !isAlwaysFloat && i % 4 === 0; // ~22% converge slowly to simulate late-forming particles
-      
-      const springK = isSlowConformer 
-        ? 0.003 + Math.random() * 0.004  // extremely slow late-formers
-        : 0.025 + Math.random() * 0.015; // normal fast springs
+      const isAlwaysFloat = i % 8 === 0;
+      const isSlowConformer = !isAlwaysFloat && i % 4 === 0;
+
+      const springK = isSlowConformer
+        ? 0.003 + Math.random() * 0.004
+        : 0.025 + Math.random() * 0.015;
 
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        z: (Math.random() - 0.5) * 150, // 3D depth coordinates
+        z: (Math.random() - 0.5) * 150,
         vx: (Math.random() - 0.5) * 0.6,
         vy: (Math.random() - 0.5) * 0.6,
         vz: (Math.random() - 0.5) * 0.6,
-        // Tiny particles (0.35-0.75px for background, 0.7-1.3px for shape)
+        // Refined tiny particles
         size: isAlwaysFloat ? 0.3 + Math.random() * 0.45 : 0.65 + Math.random() * 0.65,
-        alpha: isAlwaysFloat ? 0.45 + Math.random() * 0.45 : 0.7 + Math.random() * 0.3, // High opacity blue
+        alpha: isAlwaysFloat ? 0.45 + Math.random() * 0.45 : 0.7 + Math.random() * 0.3,
         targetX: 0,
         targetY: 0,
         targetZ: 0,
-        leftBrace: i < PARTICLE_COUNT / 2,
         springK,
         alwaysFloat: isAlwaysFloat,
       });
@@ -144,7 +131,6 @@ export default function ParenthesesParticles({ isGathered = false }: { isGathere
     particlesRef.current = particles;
     resize();
 
-    // Event listeners for window resize
     window.addEventListener("resize", resize);
 
     let animId: number;
@@ -158,9 +144,8 @@ export default function ParenthesesParticles({ isGathered = false }: { isGathere
 
       particlesRef.current.forEach((p) => {
         if (isHovered && !p.alwaysFloat) {
-          // Spring force towards brace target coordinates (no cursor repulsion to keep braces stable)
           const springK = p.springK;
-          const damping = 0.86;  // Mild damping so they overshoot and oscillate ("hit together")
+          const damping = 0.86;
 
           const forceX = (p.targetX - p.x) * springK;
           const forceY = (p.targetY - p.y) * springK;
@@ -170,23 +155,19 @@ export default function ParenthesesParticles({ isGathered = false }: { isGathere
           p.vy += forceY;
           p.vz += forceZ;
 
-          // (Removed continuous micro-vibration to let shape settle and remain statically in shape)
-
           p.vx *= damping;
           p.vy *= damping;
           p.vz *= damping;
         } else {
-          // Gentle floating motion with sinusoidal wind/fluid drift
           const time = Date.now() * 0.001;
           const driftX = Math.sin(p.y * 0.01 + time + p.alpha) * 0.04;
           const driftY = Math.cos(p.x * 0.01 + time + p.alpha) * 0.04;
           const driftZ = Math.sin(p.z * 0.01 + time + p.alpha) * 0.04;
-          
+
           p.vx += driftX + (Math.random() - 0.5) * 0.04;
           p.vy += driftY + (Math.random() - 0.5) * 0.04;
           p.vz += driftZ + (Math.random() - 0.5) * 0.04;
 
-          // Damping and speed limit
           p.vx *= 0.97;
           p.vy *= 0.97;
           p.vz *= 0.97;
@@ -203,7 +184,6 @@ export default function ParenthesesParticles({ isGathered = false }: { isGathere
         p.y += p.vy;
         p.z += p.vz;
 
-        // Boundary collision / wrapping (added 10px safe margin to prevent edge clipping)
         const marginBound = 10;
         if (p.x < marginBound) {
           p.x = marginBound;
@@ -230,18 +210,15 @@ export default function ParenthesesParticles({ isGathered = false }: { isGathere
           p.vz *= -0.8;
         }
 
-        // 3D perspective projection onto 2D canvas plane (fov = 250 for stronger depth shading)
         const fov = 250;
         const scale = fov / (fov + p.z);
         const projX = cx + (p.x - cx) * scale;
         const projY = cy + (p.y - cy) * scale;
         const projSize = p.size * scale;
 
-        // Draw blue particle
         ctx.beginPath();
         ctx.arc(projX, projY, projSize, 0, Math.PI * 2);
-        
-        // Depth-based shading: closer particles are brighter, farther ones are slightly faded
+
         ctx.fillStyle = `rgba(37, 99, 235, ${p.alpha * Math.min(1.2, scale)})`;
         ctx.fill();
       });
