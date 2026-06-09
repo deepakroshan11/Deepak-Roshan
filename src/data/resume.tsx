@@ -66,7 +66,7 @@ export const DATA = {
   location: "Coimbatore, Tamil Nadu",
   locationLink: "https://www.google.com/maps/place/Coimbatore",
   description:
-    "AI Engineer. I build intelligent systems — from model to cloud — and ship them live.",
+    "AI Engineer. I build intelligent systems from model to cloud — and ship them live.",
   summary: `I'm an **AI Engineer** specializing in **Artificial Intelligence, Machine Learning, and Cloud Computing**.
 
 I build and deploy end-to-end intelligent systems across computer vision, voice AI, and cloud-native applications, transforming ideas into scalable solutions designed for real-world use.
@@ -141,7 +141,19 @@ My expertise spans **Python, FastAPI, TensorFlow, AWS, and React**, with a stron
       start: "Apr 2025",
       end: "Jun 2025",
       description:
-        "Deployed applications on AWS (EC2, S3, Lambda) using Linux. Automated deployment and system tasks with shell scripts. Monitored systems and logs using cron and htop. Optimized cloud resources for better performance.",
+        "- Deployed applications on AWS (EC2, S3, Lambda) using Linux.\n- Automated deployment and system tasks with shell scripts.\n- Monitored systems and logs using cron and htop.\n- Optimized cloud resources for better performance.",
+    },
+    {
+      company: "Freelance",
+      href: "",
+      badges: [],
+      location: "Remote",
+      title: "Frontend Developer (Part-Time)",
+      logoUrl: "",
+      start: "2022",
+      end: "2024",
+      description:
+        "- Built scalable and responsive web interfaces across multiple client projects.\n- Designed user-friendly, modern UI/UX with a focus on visual clarity and usability.\n- Developed UI components for real-world product applications from scratch.\n- Improved performance and load efficiency through code optimisation and asset management.",
     },
   ],
 

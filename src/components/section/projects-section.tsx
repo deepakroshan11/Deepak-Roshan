@@ -15,7 +15,7 @@ import { DATA } from "@/data/resume";
 import { projectSlug } from "@/lib/projects-route";
 import { ArrowUpRight, Box, ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import BlurFade from "@/components/magicui/blur-fade";
+import SlideIn from "@/components/slide-in";
 
 function ProjectLogo({ src, alt }: { src: string; alt: string }) {
   const [imageError, setImageError] = useState(false);
@@ -54,12 +54,11 @@ export default function ProjectsSection() {
   return (
     <Accordion type="single" collapsible className="w-full grid gap-6">
       {DATA.projects.map((project, idx) => (
-        <BlurFade
+        <SlideIn
           key={project.title}
           inView={true}
           xOffset={80}
-          yOffset={0}
-          delay={idx * 0.06}
+          delay={idx * 0.05}
         >
           <AccordionItem
             value={project.title}
@@ -170,7 +169,7 @@ export default function ProjectsSection() {
               ) : null}
             </AccordionContent>
           </AccordionItem>
-        </BlurFade>
+        </SlideIn>
       ))}
     </Accordion>
   );

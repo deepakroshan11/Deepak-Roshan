@@ -4,6 +4,7 @@ import Link from "next/link";
 import { DATA } from "@/data/resume";
 import { HackathonLogo } from "@/components/section/hackathon-logo";
 import { Timeline, TimelineItem, TimelineConnectItem } from "@/components/timeline";
+import SlideIn from "@/components/slide-in";
 
 const HACKATHONS_INTRO =
   "";
@@ -154,32 +155,43 @@ export default function HackathonsSection() {
     <div className="w-full min-w-0 overflow-hidden">
       <div className="flex min-h-0 w-full flex-col gap-y-8">
         <div className="flex w-full flex-col gap-y-4 text-left">
-          <div className="flex w-full items-center">
-            <div className="h-px flex-1 bg-linear-to-r from-transparent from-5% via-border via-95% to-transparent" />
-            <div className="z-10 shrink-0 rounded-xl border bg-primary px-4 py-1">
-              <span className="text-sm font-medium text-background">
-                Hackathons
-              </span>
+          <SlideIn inView={true} xOffset={0} yOffset={50} delay={0.04}>
+            <div className="flex w-full items-center">
+              <div className="h-px flex-1 bg-linear-to-r from-transparent from-5% via-border via-95% to-transparent" />
+              <div className="z-10 shrink-0 rounded-xl border bg-primary px-4 py-1">
+                <span className="text-sm font-medium text-background">
+                  Hackathons
+                </span>
+              </div>
+              <div className="h-px flex-1 bg-linear-to-l from-transparent from-5% via-border via-95% to-transparent" />
             </div>
-            <div className="h-px flex-1 bg-linear-to-l from-transparent from-5% via-border via-95% to-transparent" />
-          </div>
+          </SlideIn>
 
-          <div className="flex w-full flex-col gap-y-3">
-            <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-              Hackathons
-            </h2>
-            <p className="text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg md:leading-relaxed lg:text-base lg:leading-relaxed">
-              {HACKATHONS_INTRO}
-            </p>
-          </div>
+          <SlideIn inView={true} xOffset={80} yOffset={0} delay={0.24}>
+            <div className="flex w-full flex-col gap-y-3">
+              <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                Hackathons
+              </h2>
+              <p className="text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg md:leading-relaxed lg:text-base lg:leading-relaxed">
+                {HACKATHONS_INTRO}
+              </p>
+            </div>
+          </SlideIn>
         </div>
 
         <Timeline>
-          {list.map((entry) => (
-            <HackathonTimelineEntry
+          {list.map((entry, idx) => (
+            <SlideIn
               key={entry.id}
-              entry={entry}
-            />
+              inView={true}
+              xOffset={80}
+              yOffset={0}
+              delay={idx * 0.05 + 0.35}
+            >
+              <HackathonTimelineEntry
+                entry={entry}
+              />
+            </SlideIn>
           ))}
         </Timeline>
       </div>

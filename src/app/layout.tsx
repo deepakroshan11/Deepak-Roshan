@@ -9,6 +9,7 @@ import "./globals.css";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { UmamiAnalytics } from "@/components/umami-analytics";
+import { TimeWidget } from "@/components/time-widget";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -121,6 +122,7 @@ export default function RootLayout({
             >
               {children}
             </div>
+            <TimeWidget />
             <Navbar />
             </SmoothScroll>
           </TooltipProvider>

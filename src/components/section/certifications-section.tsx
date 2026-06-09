@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { DATA } from "@/data/resume";
 import { Icons } from "@/components/icons";
+import SlideIn from "@/components/slide-in";
 
 // ============================================
 // COMPONENTS
@@ -57,35 +58,46 @@ export default function CertificationsSection() {
         <div className="w-full min-w-0 overflow-hidden">
             <div className="flex min-h-0 w-full flex-col gap-y-8">
                 <div className="flex w-full flex-col gap-y-4 text-left">
-                    <div className="flex w-full items-center">
-                        <div className="h-px flex-1 bg-linear-to-r from-transparent from-5% via-border via-95% to-transparent" />
-                        <div className="z-10 shrink-0 rounded-xl border bg-primary px-4 py-1">
-                            <span className="text-sm font-medium text-background">
-                                Certifications
-                            </span>
+                    <SlideIn inView={true} xOffset={0} yOffset={50} delay={0.04}>
+                        <div className="flex w-full items-center">
+                            <div className="h-px flex-1 bg-linear-to-r from-transparent from-5% via-border via-95% to-transparent" />
+                            <div className="z-10 shrink-0 rounded-xl border bg-primary px-4 py-1">
+                                <span className="text-sm font-medium text-background">
+                                    Certifications
+                                </span>
+                            </div>
+                            <div className="h-px flex-1 bg-linear-to-l from-transparent from-5% via-border via-95% to-transparent" />
                         </div>
-                        <div className="h-px flex-1 bg-linear-to-l from-transparent from-5% via-border via-95% to-transparent" />
-                    </div>
+                    </SlideIn>
 
-                    <div className="flex w-full flex-col gap-y-3">
-                        <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-                            Certifications & Credentials
-                        </h2>
-                        <p className="text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg md:leading-relaxed lg:text-base lg:leading-relaxed">
-                            Professional certifications from leading organizations in cloud computing, AI/ML, and software development.
-                        </p>
-                    </div>
+                    <SlideIn inView={true} xOffset={80} yOffset={0} delay={0.24}>
+                        <div className="flex w-full flex-col gap-y-3">
+                            <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                                Certifications & Credentials
+                            </h2>
+                            <p className="text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg md:leading-relaxed lg:text-base lg:leading-relaxed">
+                                Professional certifications from leading organizations in cloud computing, AI/ML, and software development.
+                            </p>
+                        </div>
+                    </SlideIn>
                 </div>
 
                 <div className="grid gap-3 w-full">
                     {certifications.map((cert, idx) => (
-                        <CertificationCard
+                        <SlideIn
                             key={idx}
-                            name={cert.name}
-                            issuer={cert.issuer}
-                            year={cert.year}
-                            url={cert.url}
-                        />
+                            inView={true}
+                            xOffset={80}
+                            yOffset={0}
+                            delay={idx * 0.04 + 0.35}
+                        >
+                            <CertificationCard
+                                name={cert.name}
+                                issuer={cert.issuer}
+                                year={cert.year}
+                                url={cert.url}
+                            />
+                        </SlideIn>
                     ))}
                 </div>
             </div>
