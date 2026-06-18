@@ -9,11 +9,13 @@ interface DockProps {
   children: ReactNode;
   magnification?: number;
   distance?: number;
+  style?: any;
 }
 
 interface DockIconProps {
   className?: string;
   children?: ReactNode;
+  style?: any;
 }
 
 const DEFAULT_MAGNIFICATION = 60;
@@ -46,7 +48,7 @@ function useCoarsePointer() {
   return coarse;
 }
 
-const Dock = ({ className, children, magnification = DEFAULT_MAGNIFICATION, distance = DEFAULT_DISTANCE }: DockProps) => {
+const Dock = ({ className, children, magnification = DEFAULT_MAGNIFICATION, distance = DEFAULT_DISTANCE, style }: DockProps) => {
   const mouseX = useMotionValue(Infinity);
   const coarsePointer = useCoarsePointer();
 
@@ -55,6 +57,7 @@ const Dock = ({ className, children, magnification = DEFAULT_MAGNIFICATION, dist
       <motion.div
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
+        style={style}
         className={cn(
           "mx-auto flex h-full w-max justify-center overflow-visible rounded-full border",
           coarsePointer ? "items-center" : "items-end",
@@ -67,9 +70,10 @@ const Dock = ({ className, children, magnification = DEFAULT_MAGNIFICATION, dist
   );
 };
 
-const DockIconStatic = ({ className, children }: DockIconProps) => {
+const DockIconStatic = ({ className, children, style }: DockIconProps) => {
   return (
     <div
+      style={style}
       className={cn(
         "relative flex aspect-square shrink-0 items-center justify-center rounded-full",
         /* 44px minimum touch target (WCAG / platform guidelines) */
@@ -82,7 +86,7 @@ const DockIconStatic = ({ className, children }: DockIconProps) => {
   );
 };
 
-const DockIconInteractive = ({ className, children }: DockIconProps) => {
+const DockIconInteractive = ({ className, children, style }: DockIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const context = useContext(DockContext);
 
@@ -109,7 +113,7 @@ const DockIconInteractive = ({ className, children }: DockIconProps) => {
   return (
     <motion.div
       ref={ref}
-      style={{ width: containerSize, height: containerSize }}
+      style={{ width: containerSize, height: containerSize, ...style }}
       className={cn("relative flex aspect-square items-center justify-center rounded-full shrink-0", className)}
     >
       <motion.div
@@ -122,7 +126,7 @@ const DockIconInteractive = ({ className, children }: DockIconProps) => {
   );
 };
 
-const DockIcon = ({ className, children }: DockIconProps) => {
+const DockIcon = ({ className, children, style }: DockIconProps) => {
   const context = useContext(DockContext);
 
   if (!context) {
@@ -131,14 +135,14 @@ const DockIcon = ({ className, children }: DockIconProps) => {
 
   if (context.coarsePointer) {
     return (
-      <DockIconStatic className={className}>
+      <DockIconStatic className={className} style={style}>
         {children}
       </DockIconStatic>
     );
   }
 
   return (
-    <DockIconInteractive className={className}>
+    <DockIconInteractive className={className} style={style}>
       {children}
     </DockIconInteractive>
   );

@@ -4,17 +4,18 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Bebas_Neue, Playfair_Display } from "next/font/google";
+import { Geist, Geist_Mono, Bebas_Neue, Playfair_Display, Syne, Montserrat, Syncopate } from "next/font/google";
 import "./globals.css";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { UmamiAnalytics } from "@/components/umami-analytics";
 import { TimeWidget } from "@/components/time-widget";
+import CosmicBackdrop from "@/components/cosmic-backdrop";
 
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 const geistMono = Geist_Mono({
@@ -35,6 +36,27 @@ const playfair = Playfair_Display({
   weight: ["400", "700"],
   style: ["normal", "italic"],
   variable: "--font-playfair",
+  display: "swap",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  variable: "--font-syne",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
+
+const syncopate = Syncopate({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-syncopate",
   display: "swap",
 });
 
@@ -98,15 +120,23 @@ export default function RootLayout({
           geist.variable,
           geistMono.variable,
           bebasNeue.variable,
-          playfair.variable
+          playfair.variable,
+          syne.variable,
+          montserrat.variable,
+          syncopate.variable
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="light">
           <TooltipProvider delayDuration={0}>
             <SmoothScroll>
-            <div className="absolute inset-0 top-0 left-0 right-0 h-[100px] overflow-hidden z-0">
+            {/* Scroll-Driven Dynamic Background */}
+            <div className="fixed inset-0 pointer-events-none z-0">
+              <CosmicBackdrop />
+            </div>
+
+            <div className="absolute inset-0 top-0 left-0 right-0 h-[100px] overflow-hidden z-10 pointer-events-none">
               <FlickeringGrid
-                className="h-full w-full"
+                className="h-full w-full animate-in fade-in duration-700"
                 squareSize={2}
                 gridGap={2}
                 color="rgb(30, 70, 140)"
@@ -118,7 +148,7 @@ export default function RootLayout({
               />
             </div>
             <div
-              className="relative z-10 mx-auto w-full min-w-0 max-w-2xl pt-[max(4rem,calc(env(safe-area-inset-top,0px)+2.75rem))] pb-[calc(14rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(12.5rem+env(safe-area-inset-bottom,0px))] md:pb-[calc(13rem+env(safe-area-inset-bottom,0px))] sm:pt-20 ps-[max(1.5rem,env(safe-area-inset-left,0px))] pe-[max(1.5rem,env(safe-area-inset-right,0px))] sm:ps-[max(1.5rem,env(safe-area-inset-left,0px))] sm:pe-[max(1.5rem,env(safe-area-inset-right,0px))] lg:ps-[max(2rem,env(safe-area-inset-left,0px))] lg:pe-[max(2rem,env(safe-area-inset-right,0px))]"
+              className="relative z-20 mx-auto w-full min-w-0 max-w-2xl pt-[max(4rem,calc(env(safe-area-inset-top,0px)+2.75rem))] pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] md:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] ps-[max(1.5rem,env(safe-area-inset-left,0px))] pe-[max(1.5rem,env(safe-area-inset-right,0px))] sm:ps-[max(1.5rem,env(safe-area-inset-left,0px))] sm:pe-[max(1.5rem,env(safe-area-inset-right,0px))] lg:ps-[max(2rem,env(safe-area-inset-left,0px))] lg:pe-[max(2rem,env(safe-area-inset-right,0px))]"
             >
               {children}
             </div>

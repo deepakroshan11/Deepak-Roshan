@@ -41,6 +41,11 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --font-syne: var(--font-syne);
+  --font-playfair: var(--font-playfair);
+  --font-bebas: var(--font-bebas);
+  --font-montserrat: var(--font-montserrat);
+  --font-syncopate: var(--font-syncopate);
 }
 
 :root {
@@ -661,9 +666,9 @@
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%,
       #ffffff 0%,
-      #e8f0ff 30%,
-      #b0c8f0 60%,
-      rgba(80, 130, 220, 0.4) 100%);
+      #f4f4f5 30%,
+      #d4d4d8 60%,
+      rgba(161, 161, 170, 0.4) 100%);
   box-shadow:
     inset -1px -1px 3px rgba(0, 0, 0, 0.3),
     inset 1px 1px 2px rgba(255, 255, 255, 0.6);
@@ -680,10 +685,10 @@
   height: 4px;
   border-radius: 0 2px 2px 0;
   background: linear-gradient(90deg,
-      rgba(220, 235, 255, 0.92) 0%,
-      rgba(180, 210, 255, 0.65) 15%,
-      rgba(130, 175, 240, 0.38) 45%,
-      rgba(80, 140, 220, 0.14) 70%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(240, 240, 240, 0.7) 15%,
+      rgba(200, 200, 200, 0.4) 45%,
+      rgba(150, 150, 150, 0.15) 70%,
       transparent 100%);
   /* Blur only the tail, not the head */
   filter: blur(0.6px);
@@ -730,9 +735,9 @@
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%,
       #ffffff 0%,
-      #e8f0ff 30%,
-      #b0c8f0 60%,
-      rgba(80, 130, 220, 0.4) 100%);
+      #f4f4f5 30%,
+      #d4d4d8 60%,
+      rgba(161, 161, 170, 0.4) 100%);
   box-shadow:
     inset -1px -1px 3px rgba(0, 0, 0, 0.3),
     inset 1px 1px 2px rgba(255, 255, 255, 0.6);
@@ -748,10 +753,10 @@
   height: 4px;
   border-radius: 2px 0 0 2px;
   background: linear-gradient(270deg,
-      rgba(220, 235, 255, 0.92) 0%,
-      rgba(180, 210, 255, 0.65) 15%,
-      rgba(130, 175, 240, 0.38) 45%,
-      rgba(80, 140, 220, 0.14) 70%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(240, 240, 240, 0.7) 15%,
+      rgba(200, 200, 200, 0.4) 45%,
+      rgba(150, 150, 150, 0.15) 70%,
       transparent 100%);
   filter: blur(0.6px);
 }
@@ -798,9 +803,9 @@
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%,
       #ffffff 0%,
-      #e8f0ff 30%,
-      #b0c8f0 60%,
-      rgba(80, 130, 220, 0.4) 100%);
+      #f4f4f5 30%,
+      #d4d4d8 60%,
+      rgba(161, 161, 170, 0.4) 100%);
   box-shadow:
     inset -1px -1px 2px rgba(0, 0, 0, 0.3),
     inset 1px 1px 1px rgba(255, 255, 255, 0.6);
@@ -815,10 +820,10 @@
   width: 120px;
   height: 3px;
   background: linear-gradient(90deg,
-      rgba(220, 235, 255, 0.92) 0%,
-      rgba(180, 210, 255, 0.65) 15%,
-      rgba(130, 175, 240, 0.38) 45%,
-      rgba(80, 140, 220, 0.14) 70%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(240, 240, 240, 0.7) 15%,
+      rgba(200, 200, 200, 0.4) 45%,
+      rgba(150, 150, 150, 0.15) 70%,
       transparent 100%);
   filter: blur(0.6px);
 }
@@ -936,7 +941,12 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* Smooth, high-contrast, elegant typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   letter-spacing: -0.025em !important;
 }
 
@@ -995,14 +1005,103 @@ h1, h2, h3, h4, h5, h6 {
   list-style: none !important;
   padding-left: 0 !important;
 }
+
 .prose ul:not(.contains-task-list) li {
   position: relative !important;
   padding-left: 1.25rem !important;
 }
+
 .prose ul:not(.contains-task-list) li::before {
   content: "–" !important;
   position: absolute !important;
   left: 0 !important;
   font-weight: bold !important;
   color: var(--primary) !important;
+}
+
+/* Custom TimeWidget Gradient Shift Animation */
+@keyframes time-widget-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-time-widget-gradient {
+  background-size: 200% 200%;
+  animation: time-widget-gradient 8s ease infinite;
+}
+
+/* ── CUSTOM SPARKLE TWINKLE ANIMATION ── */
+@keyframes sparkle-glow {
+  0%, 100% {
+    transform: scale(0.6) rotate(0deg);
+    opacity: 0.15;
+  }
+  50% {
+    transform: scale(1.15) rotate(180deg);
+    opacity: 0.85;
+  }
+}
+
+.animate-sparkle-glow {
+  animation: sparkle-glow 4.2s ease-in-out infinite;
+}
+
+/* ── DIAMOND SHIMMER ANIMATION ── */
+@keyframes diamond-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-diamond-shimmer {
+  background-size: 200% auto;
+  animation: diamond-shimmer 2.5s linear infinite;
+}
+
+/* ── VERTICAL GRID SLIDING ANIMATION ── */
+@keyframes grid-slide {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 40px;
+  }
+}
+
+.animate-grid-slide {
+  animation: grid-slide 3.5s linear infinite;
+}
+
+/* ── SEARCHLIGHT ANIMATIONS ── */
+@keyframes searchlight-l {
+  0%, 100% {
+    transform: rotate(-25deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+@keyframes searchlight-r {
+  0%, 100% {
+    transform: rotate(25deg);
+  }
+  50% {
+    transform: rotate(-15deg);
+  }
 }

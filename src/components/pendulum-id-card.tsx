@@ -6,7 +6,7 @@ import Image from "next/image";
 /* ─────────────────────────────────────────────
    Barcode decoration (pure CSS bars)
 ───────────────────────────────────────────── */
-const BARCODE_WIDTHS = [2,1,3,1,2,1,1,2,3,1,2,1,1,3,2,1,2,1,2,1,1,3,2,1,3,1,2,1];
+const BARCODE_WIDTHS = [2, 1, 3, 1, 2, 1, 1, 2, 3, 1, 2, 1, 1, 3, 2, 1, 2, 1, 2, 1, 1, 3, 2, 1, 3, 1, 2, 1];
 
 function Barcode() {
   return (
@@ -23,7 +23,7 @@ function Barcode() {
 ───────────────────────────────────────────── */
 export function PendulumIDCard() {
   const cardRef = useRef<HTMLDivElement>(null);
-  const rafRef  = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
   // current animated state
   const state = useRef({ rx: 0, ry: 0, mx: 0.5, my: 0.5, settled: true });
 
@@ -34,7 +34,7 @@ export function PendulumIDCard() {
     if (!card) return;
 
     const TARGET_RX = s.settled ? 0 : (s.my - 0.5) * -28;
-    const TARGET_RY = s.settled ? 0 : (s.mx - 0.5) *  28;
+    const TARGET_RY = s.settled ? 0 : (s.mx - 0.5) * 28;
 
     s.rx += (TARGET_RX - s.rx) * 0.1;
     s.ry += (TARGET_RY - s.ry) * 0.1;
@@ -67,8 +67,8 @@ export function PendulumIDCard() {
   const onMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const rect = cardRef.current?.getBoundingClientRect();
     if (!rect) return;
-    state.current.mx      = (e.clientX - rect.left)  / rect.width;
-    state.current.my      = (e.clientY - rect.top)   / rect.height;
+    state.current.mx = (e.clientX - rect.left) / rect.width;
+    state.current.my = (e.clientY - rect.top) / rect.height;
     state.current.settled = false;
   }, []);
 

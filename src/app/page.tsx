@@ -12,6 +12,7 @@ import EducationSection from "@/components/section/education-section";
 import { SkillsBubbles } from "@/components/skills-bubbles";
 import Footer from "@/components/footer";
 import ScrollReveal from "@/components/scroll-reveal";
+import SectionDivider from "@/components/section-divider";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -33,7 +34,7 @@ export default function Page() {
               className="order-2 flex min-w-0 w-full flex-1 flex-col gap-3 text-left md:order-1 md:max-w-xl"
             >
               <h1 className="text-balance break-words text-[clamp(1.5rem,4.2vw+1rem,1.85rem)] font-bold leading-[1.12] tracking-tighter text-foreground sm:text-[clamp(1.85rem,4vw+1rem,3rem)] sm:leading-[1.08] md:text-5xl xl:text-6xl xl:leading-[1.1]">
-                Hi, I'm {DATA.name}
+                Hi, I&apos;m {DATA.name}
               </h1>
               <p className="text-pretty text-sm leading-[1.65] text-muted-foreground sm:text-base sm:leading-relaxed md:max-w-[550px] md:text-lg lg:text-xl">
                 {DATA.description}
@@ -53,6 +54,10 @@ export default function Page() {
         </section>
       </ScrollReveal>
 
+      <ScrollReveal className="-my-5 sm:-my-6 md:-my-10 lg:-my-12">
+        <SectionDivider delay={BLUR_FADE_DELAY * 2} />
+      </ScrollReveal>
+
       <ScrollReveal>
         <section id="about" className="relative scroll-mt-24 md:scroll-mt-28">
           <div className="flex flex-col gap-4 md:gap-5">
@@ -68,6 +73,10 @@ export default function Page() {
         </section>
       </ScrollReveal>
 
+      <ScrollReveal className="-my-5 sm:-my-6 md:-my-10 lg:-my-12">
+        <SectionDivider delay={BLUR_FADE_DELAY * 4.5} />
+      </ScrollReveal>
+
       <ScrollReveal>
         <section id="work" className="scroll-mt-24 md:scroll-mt-28">
           <div className="flex flex-col gap-4 md:gap-6">
@@ -79,6 +88,10 @@ export default function Page() {
         </section>
       </ScrollReveal>
 
+      <ScrollReveal className="-my-5 sm:-my-6 md:-my-10 lg:-my-12">
+        <SectionDivider delay={BLUR_FADE_DELAY * 5.5} />
+      </ScrollReveal>
+
       <ScrollReveal>
         <section id="education" className="scroll-mt-24 md:scroll-mt-28">
           <div className="flex flex-col gap-4 md:gap-6">
@@ -88,6 +101,10 @@ export default function Page() {
             <EducationSection />
           </div>
         </section>
+      </ScrollReveal>
+
+      <ScrollReveal className="-my-5 sm:-my-6 md:-my-10 lg:-my-12">
+        <SectionDivider delay={BLUR_FADE_DELAY * 6.5} />
       </ScrollReveal>
 
       <ScrollReveal>
@@ -110,6 +127,10 @@ export default function Page() {
         </section>
       </ScrollReveal>
 
+      <ScrollReveal className="-my-5 sm:-my-6 md:-my-10 lg:-my-12">
+        <SectionDivider delay={BLUR_FADE_DELAY * 8.5} />
+      </ScrollReveal>
+
       <ScrollReveal>
         <section id="projects" className="scroll-mt-24 md:scroll-mt-28">
           <div className="flex flex-col gap-4 md:gap-6">
@@ -129,16 +150,28 @@ export default function Page() {
         </section>
       </ScrollReveal>
 
+      <ScrollReveal className="-my-5 sm:-my-6 md:-my-10 lg:-my-12">
+        <SectionDivider delay={BLUR_FADE_DELAY * 9.5} />
+      </ScrollReveal>
+
       <ScrollReveal>
         <section id="hackathons" className="scroll-mt-24 md:scroll-mt-28">
           <HackathonsSection />
         </section>
       </ScrollReveal>
 
+      <ScrollReveal className="-my-5 sm:-my-6 md:-my-10 lg:-my-12">
+        <SectionDivider delay={BLUR_FADE_DELAY * 10} />
+      </ScrollReveal>
+
       <ScrollReveal>
         <section id="certifications" className="scroll-mt-24 md:scroll-mt-28">
           <CertificationsSection />
         </section>
+      </ScrollReveal>
+
+      <ScrollReveal className="-my-5 sm:-my-6 md:-my-10 lg:-my-12">
+        <SectionDivider delay={BLUR_FADE_DELAY * 11} />
       </ScrollReveal>
 
       <ScrollReveal>

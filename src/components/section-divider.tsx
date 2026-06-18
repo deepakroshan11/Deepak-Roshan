@@ -1,15 +1,16 @@
 "use client";
 
-import BlurFade from "@/components/magicui/blur-fade";
+import SlideIn from "@/components/slide-in";
 
 interface SectionDividerProps {
   delay?: number;
+  className?: string;
 }
 
-export default function SectionDivider({ delay = 0 }: SectionDividerProps) {
+export default function SectionDivider({ delay = 0, className }: SectionDividerProps) {
   return (
-    <BlurFade delay={delay} inView={true} xOffset={40} yOffset={0}>
+    <SlideIn delay={delay} inView={true} xOffset={80} className={className}>
       <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-primary/20 to-transparent my-1.5 select-none" aria-hidden="true" />
-    </BlurFade>
+    </SlideIn>
   );
 }

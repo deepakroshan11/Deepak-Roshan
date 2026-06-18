@@ -13,6 +13,10 @@ import {
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
+import { useScroll, useMotionValueEvent } from "motion/react";
+import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
+
 
 /** Desktop / trackpad: show Radix tooltips. Touch: skip so first tap always follows the link. */
 function useHoverTooltipsEnabled() {
@@ -58,6 +62,104 @@ function NavTooltip({
 
 export default function Navbar() {
   const tooltips = useHoverTooltipsEnabled();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const [glowColor, setGlowColor] = useState<"sunrise" | "twilight" | "moon">("sunrise");
+  const [isVisible, setIsVisible] = useState(true);
+
+  const pathname = usePathname();
+  const isWorksPage = pathname?.startsWith("/works");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isWorksPage) {
+      setGlowColor("moon");
+      setIsVisible(true);
+    }
+  }, [isWorksPage]);
+
+  const { scrollYProgress } = useScroll();
+
+  // Track scroll updates to shift the active scenery phase state
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (isWorksPage) {
+      setGlowColor("moon");
+      setIsVisible(true);
+      return;
+    }
+
+    if (latest < 0.18) {
+      setGlowColor("sunrise");
+    } else if (latest < 0.45) {
+      setGlowColor("twilight");
+    } else {
+      setGlowColor("moon");
+    }
+
+    if (latest > 0.92) {
+      setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+  });
+
+  const glowStyles = {
+    sunrise: {
+      dark: {
+        boxShadow: "0 0 18px 4px rgba(249, 115, 22, 0.45), 0 0 36px 8px rgba(239, 68, 68, 0.15)",
+        borderColor: "rgba(249, 115, 22, 0.5)",
+        backgroundColor: "rgba(24, 15, 15, 0.85)",
+        iconBorder: "rgba(249, 115, 22, 0.45)",
+      },
+      light: {
+        boxShadow: "0 0 14px 3px rgba(251, 191, 36, 0.35)",
+        borderColor: "rgba(251, 191, 36, 0.45)",
+        backgroundColor: "rgba(254, 243, 199, 0.85)",
+        iconBorder: "rgba(251, 191, 36, 0.45)",
+      },
+    },
+    twilight: {
+      dark: {
+        boxShadow: "0 0 18px 4px rgba(139, 92, 246, 0.45), 0 0 36px 8px rgba(99, 102, 241, 0.2)",
+        borderColor: "rgba(139, 92, 246, 0.5)",
+        backgroundColor: "rgba(15, 12, 28, 0.85)",
+        iconBorder: "rgba(139, 92, 246, 0.45)",
+      },
+      light: {
+        boxShadow: "0 0 14px 3px rgba(139, 92, 246, 0.35)",
+        borderColor: "rgba(139, 92, 246, 0.45)",
+        backgroundColor: "rgba(245, 243, 255, 0.85)",
+        iconBorder: "rgba(139, 92, 246, 0.45)",
+      },
+    },
+    moon: {
+      dark: {
+        boxShadow: "0 0 18px 4px rgba(100, 160, 255, 0.55), 0 0 36px 8px rgba(100, 160, 255, 0.15)",
+        borderColor: "rgba(100, 160, 255, 0.55)",
+        backgroundColor: "rgba(10, 16, 30, 0.85)",
+        iconBorder: "rgba(100, 160, 255, 0.5)",
+      },
+      light: {
+        boxShadow: "0 0 14px 3px rgba(147, 197, 253, 0.4)",
+        borderColor: "rgba(147, 197, 253, 0.5)",
+        backgroundColor: "rgba(239, 246, 255, 0.85)",
+        iconBorder: "rgba(147, 197, 253, 0.5)",
+      },
+    },
+  };
+
+  const isDark = resolvedTheme === "dark";
+  const activeStyle = mounted
+    ? glowStyles[glowColor][isDark ? "dark" : "light"]
+    : {
+        boxShadow: "none",
+        borderColor: "transparent",
+        backgroundColor: "rgba(255, 255, 255, 0.85)",
+        iconBorder: "transparent",
+      };
 
   return (
     <nav
@@ -69,7 +171,9 @@ export default function Navbar() {
         "pe-[max(0.5rem,env(safe-area-inset-right,0px))]",
         "pb-[max(0.5rem,env(safe-area-inset-bottom,0px))]",
         "sm:bottom-4 sm:left-1/2 sm:right-auto sm:w-max sm:-translate-x-1/2 sm:max-w-[min(100dvw-1rem,calc(100dvw-env(safe-area-inset-left)-env(safe-area-inset-right)-1rem)))] sm:px-0",
-        "sm:pb-[max(0.25rem,env(safe-area-inset-bottom,0px))]"
+        "sm:pb-[max(0.25rem,env(safe-area-inset-bottom,0px))]",
+        "transition-all duration-500 ease-in-out",
+        isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0 pointer-events-none"
       )}
     >
       <div
@@ -86,6 +190,12 @@ export default function Navbar() {
         )}
       >
         <Dock
+          style={{
+            boxShadow: activeStyle.boxShadow,
+            borderColor: activeStyle.borderColor,
+            backgroundColor: activeStyle.backgroundColor,
+            transition: "box-shadow 0.8s ease, border-color 0.8s ease, background-color 0.8s ease",
+          }}
           className={cn(
             "z-50 relative mx-auto min-h-[3.625rem] w-max shrink-0",
             "flex flex-nowrap items-center justify-center",
@@ -108,7 +218,13 @@ export default function Navbar() {
                   aria-label={item.label}
                   className="touch-manipulation outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full shrink-0"
                 >
-                  <DockIcon className="cursor-pointer rounded-3xl border border-border bg-background p-0 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+                  <DockIcon
+                    style={{
+                      borderColor: activeStyle.iconBorder,
+                      transition: "border-color 0.8s ease, background-color 0.3s ease",
+                    }}
+                    className="cursor-pointer rounded-3xl border bg-background p-0 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  >
                     <item.icon className="size-full overflow-hidden rounded-sm object-contain" />
                   </DockIcon>
                 </a>
@@ -133,7 +249,13 @@ export default function Navbar() {
                     aria-label={name}
                     className="touch-manipulation outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full shrink-0"
                   >
-                    <DockIcon className="cursor-pointer rounded-3xl border border-border bg-background p-0 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+                    <DockIcon
+                      style={{
+                        borderColor: activeStyle.iconBorder,
+                        transition: "border-color 0.8s ease, background-color 0.3s ease",
+                      }}
+                      className="cursor-pointer rounded-3xl border bg-background p-0 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    >
                       <IconComponent className="size-full overflow-hidden rounded-sm object-contain" />
                     </DockIcon>
                   </a>
@@ -146,7 +268,13 @@ export default function Navbar() {
           />
           <NavTooltip enabled={tooltips} label="Theme">
             <div className="touch-manipulation outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background rounded-full shrink-0">
-              <DockIcon className="cursor-pointer rounded-3xl border border-border bg-background p-0 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+              <DockIcon
+                style={{
+                  borderColor: activeStyle.iconBorder,
+                  transition: "border-color 0.8s ease, background-color 0.3s ease",
+                }}
+                className="cursor-pointer rounded-3xl border bg-background p-0 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
                 <ModeToggle className="size-full cursor-pointer" />
               </DockIcon>
             </div>
