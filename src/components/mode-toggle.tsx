@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
@@ -12,7 +13,14 @@ export function ModeToggle({
   className?: string;
   "aria-label"?: string;
 }) {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = !mounted || resolvedTheme === "dark";
 
   return (
     <Button
@@ -21,10 +29,13 @@ export function ModeToggle({
       size="icon"
       className={cn(className)}
       aria-label={ariaLabel}
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() => setTheme(isDark ? "light" : "dark")}
     >
-      <SunIcon className="h-full w-full" />
-      <MoonIcon className="hidden h-full w-full" />
+      {isDark ? (
+        <SunIcon className="h-full w-full" />
+      ) : (
+        <MoonIcon className="h-full w-full" />
+      )}
     </Button>
   );
 }

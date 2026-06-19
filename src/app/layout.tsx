@@ -126,7 +126,7 @@ export default function RootLayout({
           syncopate.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="light">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <TooltipProvider delayDuration={0}>
             <SmoothScroll>
             {/* Scroll-Driven Dynamic Background */}
