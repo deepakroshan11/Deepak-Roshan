@@ -217,11 +217,7 @@ My expertise spans **Python, FastAPI, TensorFlow, AWS, and React**, with a stron
 - **MobileNetV3** extracts visual feature embeddings from item photos.
 - **MiniLM** encodes text descriptions into semantic vectors.
 - A **fusion scoring system** combines vision + text similarity to rank matches and trigger email alerts for high-confidence results.
-- Items are stored in **Supabase** (PostgreSQL) with **Cloudinary** for image hosting.
-
-## What makes it interesting
-
-Built without a pre-packaged matching framework — the multimodal fusion scoring logic is hand-rolled, which means the ranking behavior is fully explainable and tunable. Deployed with a **React + Vite** frontend on Vercel and a **FastAPI** backend on Render, with UptimeRobot pinging to prevent cold starts.`,
+- Items are stored in **Supabase** (PostgreSQL) with **Cloudinary** for image hosting.`,
       technologies: [
         "React",
         "Vite",
@@ -266,11 +262,7 @@ Built without a pre-packaged matching framework — the multimodal fusion scorin
 - **ChatterboxTTS** handles zero-shot voice synthesis — no fine-tuning required.
 - A **7-stage professional DSP audio chain** post-processes the output: bass restoration → de-noising → harmonic extension → multiband dynamics → room tone removal → LUFS normalization → true-peak limiting.
 - The frontend features a **vinyl disc recorder animation** for a polished UX.
-- Deployed as a **FastAPI** app on **Hugging Face Spaces** via Docker.
-
-## What makes it interesting
-
-The DSP pipeline transforms raw TTS output into broadcast-quality audio — a layer most voice cloning demos skip entirely. Every stage is individually tunable, making the quality uplift measurable and explainable.`,
+- Deployed as a **FastAPI** app on **Hugging Face Spaces** via Docker.`,
       technologies: [
         "Python",
         "FastAPI",
@@ -304,7 +296,7 @@ The DSP pipeline transforms raw TTS output into broadcast-quality audio — a la
       active: true,
       description: `## Overview
 
-A real-time **Indian Sign Language (ISL) translation system** with emotion awareness — built without relying on pre-packaged gesture recognition libraries for the core model.
+A real-time **Indian Sign Language (ISL) translation system** designed to bridge the communication gap between deaf or non-verbal individuals and the hearing world. By turning hand gestures and facial expressions into readable text and speech in real time, it removes one of the most fundamental barriers to everyday interaction — enabling more inclusive and accessible conversations.
 
 ## How it works
 
@@ -312,11 +304,7 @@ A real-time **Indian Sign Language (ISL) translation system** with emotion aware
 - A **TensorFlow CNN** trained on the raw keypoint data achieves **~95% accuracy** on ISL gestures.
 - **Emotion detection** uses facial landmarks with temporal smoothing to prevent jitter.
 - A **speech-to-sign avatar** renders signs from spoken input using **Three.js** and the Web Speech API.
-- Deployed on **Hugging Face Spaces** with a Flask + Socket.IO backend running as a single-process daemon thread (fixed shared-memory IPC failure from the original two-process supervisord architecture).
-
-## What makes it interesting
-
-The finger curl values for gesture recognition are derived directly from MediaPipe landmark geometry — no hard-coded thresholds, fully data-driven. The hand tracking overlay shows live skeleton + hold-progress arc for a clear visual feedback loop.`,
+- Deployed on **Hugging Face Spaces** with a Flask + Socket.IO backend running as a single-process daemon thread (fixed shared-memory IPC failure from the original two-process supervisord architecture).`,
       technologies: [
         "TensorFlow",
         "MediaPipe",
@@ -361,11 +349,7 @@ The finger curl values for gesture recognition are derived directly from MediaPi
 - **Isolation Forest** (unsupervised ML) detects anomalies in system behavior without needing labeled failure data.
 - When an anomaly is confirmed, **AWS Lambda** triggers automated remediation — restart, scale, or alert.
 - **SNS** sends instant notifications to operators.
-- A **Streamlit dashboard** visualizes live metrics, detected anomalies, and recovery actions in one place.
-
-## What makes it interesting
-
-The entire self-healing loop — detect → decide → remediate → notify — runs serverlessly on AWS with no human in the loop. The Isolation Forest model requires zero labeled training data, making it immediately deployable on any EC2 workload.`,
+- A **Streamlit dashboard** visualizes live metrics, detected anomalies, and recovery actions in one place.`,
       technologies: [
         "Python",
         "AWS EC2",

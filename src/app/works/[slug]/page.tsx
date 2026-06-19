@@ -136,7 +136,7 @@ export default async function WorkProjectPage({
       {"animationComponent" in project && project.animationComponent ? (
         <div className="not-prose mt-10 space-y-3">
           <h2 className="text-xl font-semibold tracking-tight text-foreground">
-            Journey
+            Demo
           </h2>
           {React.createElement(
             animationComponents[project.animationComponent as keyof typeof animationComponents]
@@ -149,14 +149,22 @@ export default async function WorkProjectPage({
           <h2 className="not-prose text-xl font-semibold tracking-tight text-foreground mb-3">
             Demo
           </h2>
-          <video
-            src={project.video}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full max-h-64 rounded-lg border object-cover bg-muted sm:max-h-96"
-          />
+          {project.video.endsWith(".webp") ? (
+            <img
+              src={project.video}
+              alt={`${project.title} Teaser Demo`}
+              className="w-full max-h-64 rounded-lg border object-cover bg-muted sm:max-h-96"
+            />
+          ) : (
+            <video
+              src={project.video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full max-h-64 rounded-lg border object-cover bg-muted sm:max-h-96"
+            />
+          )}
         </div>
       ) : null}
 

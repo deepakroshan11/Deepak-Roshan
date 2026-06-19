@@ -1,97 +1,244 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Mic, Zap, AudioLines, SlidersHorizontal, Play } from "lucide-react";
+
 export const VoxAIAnimation = () => {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const runTimeline = () => {
+      setStep(0);
+      const t1 = setTimeout(() => setStep(1), 2400);
+      const t2 = setTimeout(() => setStep(2), 4800);
+      const t3 = setTimeout(() => setStep(3), 7200);
+      const t4 = setTimeout(() => setStep(4), 9600);
+      return [t1, t2, t3, t4];
+    };
+
+    let timers = runTimeline();
+    const interval = setInterval(() => {
+      timers.forEach(clearTimeout);
+      timers = runTimeline();
+    }, 12000);
+
+    return () => {
+      timers.forEach(clearTimeout);
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <div className="w-full max-w-2xl mx-auto py-8">
-      <style>{`
-        @keyframes slideInFlow {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        
-        .voxai-stage {
-          animation: slideInFlow 0.8s ease-out forwards;
-          opacity: 0;
-        }
-        .voxai-stage:nth-child(1) { animation-delay: 0.1s; }
-        .voxai-stage:nth-child(2) { animation-delay: 0.4s; }
-        .voxai-stage:nth-child(3) { animation-delay: 0.7s; }
-        .voxai-stage:nth-child(4) { animation-delay: 1s; }
-      `}</style>
-
-      <div className="space-y-0 w-full max-w-sm mx-auto">
-        {/* Stage 1 */}
-        <div className="voxai-stage bg-amber-50 dark:bg-amber-950 p-6 border border-amber-200 dark:border-amber-800 rounded-t-lg text-center">
-          <div className="w-14 h-14 rounded-full bg-amber-100 dark:bg-amber-900 flex items-center justify-center mx-auto mb-3">
-            <svg className="w-7 h-7 text-amber-600 dark:text-amber-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-              <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
-            </svg>
+    <div className="w-full max-w-2xl mx-auto py-4 font-sans select-none overflow-hidden">
+      <motion.div
+        animate={{
+          scale: step === 2 ? 1.02 : step === 4 ? 1.01 : 1,
+        }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className="w-full h-[320px] rounded-xl border border-border bg-card/65 backdrop-blur-md shadow-xl flex flex-col overflow-hidden relative"
+      >
+        {/* Browser header */}
+        <div className="h-8 border-b border-border bg-muted/40 flex items-center px-4 justify-between shrink-0">
+          <div className="flex gap-1.5">
+            <span className="size-2.5 rounded-full bg-red-500/40" />
+            <span className="size-2.5 rounded-full bg-yellow-500/40" />
+            <span className="size-2.5 rounded-full bg-green-500/40" />
           </div>
-          <h4 className="font-semibold text-amber-900 dark:text-amber-100">Record Voice Sample</h4>
-          <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">Short audio with accent & tone</p>
-        </div>
-
-        {/* Arrow */}
-        <div className="flex justify-center py-1 bg-gray-100 dark:bg-gray-900">
-          <span className="text-gray-400 text-lg">↓</span>
-        </div>
-
-        {/* Stage 2 */}
-        <div className="voxai-stage bg-gray-50 dark:bg-gray-900 p-6 border border-gray-200 dark:border-gray-800 text-center">
-          <div className="w-14 h-14 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mx-auto mb-3">
-            <svg className="w-7 h-7 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+          <div className="px-10 py-0.5 rounded bg-muted/60 border border-border text-[9px] text-muted-foreground/60 tracking-wider">
+            voxai.ai/studio
           </div>
-          <h4 className="font-semibold text-gray-900 dark:text-gray-100">FastAPI Upload</h4>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Send to processing endpoint</p>
+          <div className="w-10" />
         </div>
 
-        {/* Arrow */}
-        <div className="flex justify-center py-1 bg-gray-100 dark:bg-gray-900">
-          <span className="text-gray-400 text-lg">↓</span>
-        </div>
-
-        {/* Stage 3 */}
-        <div className="voxai-stage bg-gray-50 dark:bg-gray-900 p-6 border border-gray-200 dark:border-gray-800 text-center">
-          <div className="w-14 h-14 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center mx-auto mb-3">
-            <svg className="w-7 h-7 text-purple-600 dark:text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-            </svg>
+        {/* Content */}
+        <div className="flex-1 p-5 flex flex-col relative overflow-hidden bg-card/40">
+          {/* Step indicator */}
+          <div className="absolute top-2 left-4 flex items-center gap-1.5 text-[8px] uppercase tracking-wider text-muted-foreground/50">
+            <AudioLines className="size-2.5 text-primary/60 animate-pulse" />
+            {step === 0 && "Step 1: Import Voice Sample"}
+            {step === 1 && "Step 2: Enter Speech Prompt"}
+            {step === 2 && "Step 3: Neural Voice Cloning"}
+            {step === 3 && "Step 4: DSP Audio Pipeline"}
+            {step === 4 && "VoxAI Studio"}
           </div>
-          <h4 className="font-semibold text-gray-900 dark:text-gray-100">ChatterboxTTS Synthesis</h4>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Zero-shot voice generation</p>
+
+          <AnimatePresence mode="wait">
+            {step === 0 && (
+              <motion.div
+                key="step-0"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="flex-1 flex flex-col justify-center items-center gap-4"
+              >
+                <div className="flex items-center gap-3 bg-muted/40 border border-border rounded-lg p-3 w-full max-w-xs shadow-sm">
+                  <div className="size-10 bg-amber-500/10 rounded-md border border-amber-500/20 flex items-center justify-center">
+                    <Mic className="size-5 text-amber-500/80" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="text-[11px] font-semibold text-foreground">voice_sample.wav</p>
+                    <p className="text-[9px] text-muted-foreground">3.2s · 44.1kHz · Mono</p>
+                  </div>
+                  <span className="text-[8px] bg-amber-500/10 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/20 font-bold">LOADED</span>
+                </div>
+
+                {/* Waveform visualization */}
+                <div className="w-full max-w-xs flex items-center gap-0.5 justify-center h-8">
+                  {Array.from({ length: 32 }).map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="w-1 bg-amber-500/60 rounded-full"
+                      animate={{
+                        height: [4, Math.random() * 24 + 6, 4],
+                      }}
+                      transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        delay: i * 0.04,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {step === 1 && (
+              <motion.div
+                key="step-1"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="flex-1 flex flex-col justify-center items-center gap-4"
+              >
+                <div className="w-full max-w-xs bg-muted/30 border border-border rounded-lg p-3">
+                  <p className="text-[8px] text-muted-foreground/60 uppercase tracking-wider mb-2">Speech Prompt</p>
+                  <motion.p
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 1.8, ease: "linear" }}
+                    className="overflow-hidden whitespace-nowrap border-r border-foreground/80 text-[11px] font-mono text-foreground/90 font-semibold"
+                  >
+                    &quot;Welcome to the future of voice.&quot;
+                  </motion.p>
+                </div>
+                <p className="text-[9px] text-muted-foreground/60 font-mono">target-voice: imported_sample.wav</p>
+              </motion.div>
+            )}
+
+            {step === 2 && (
+              <motion.div
+                key="step-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="flex-1 flex flex-col justify-center items-center gap-4"
+              >
+                <div className="relative size-16 flex items-center justify-center">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-0 rounded-full border border-dashed border-purple-500/40"
+                  />
+                  <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-2 rounded-full border border-dashed border-blue-500/30"
+                  />
+                  <Zap className="size-7 text-purple-500/80 animate-pulse" />
+                </div>
+                <div className="text-center font-mono text-[9px] text-muted-foreground space-y-1">
+                  <p className="animate-pulse font-semibold">ChatterboxTTS synthesizing...</p>
+                  <p className="opacity-60">Zero-shot · No fine-tuning required</p>
+                </div>
+              </motion.div>
+            )}
+
+            {step === 3 && (
+              <motion.div
+                key="step-3"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="flex-1 flex flex-col justify-center items-center gap-3"
+              >
+                <div className="size-10 bg-teal-500/10 border border-teal-500/30 rounded-full flex items-center justify-center">
+                  <SlidersHorizontal className="size-5 text-teal-600 dark:text-teal-400" />
+                </div>
+                <div className="w-full max-w-xs grid grid-cols-2 gap-1.5">
+                  {["Bass Restore", "De-Noise", "Harmonics", "Dynamics", "Room Tone", "LUFS Norm", "Peak Limit"].map((stage, i) => (
+                    <motion.div
+                      key={stage}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.12 }}
+                      className="flex items-center gap-1.5 text-[8px] font-mono text-muted-foreground/80 bg-muted/30 border border-border rounded px-2 py-1"
+                    >
+                      <span className="size-1.5 rounded-full bg-teal-500" />
+                      {stage}
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {step === 4 && (
+              <motion.div
+                key="step-4"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex-1 flex flex-col justify-center items-center gap-3"
+              >
+                <div className="flex items-center gap-3 bg-muted/40 border border-border rounded-lg p-3 w-full max-w-xs">
+                  <div className="size-8 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center">
+                    <Play className="size-4 text-green-600 dark:text-green-400 ml-0.5" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-[10px] font-semibold text-foreground">Cloned Output Ready</p>
+                    <p className="text-[8px] text-muted-foreground">broadcast-quality · 44.1kHz</p>
+                  </div>
+                </div>
+                {/* Visualizer bars */}
+                <div className="flex items-end gap-0.5 h-6">
+                  {Array.from({ length: 24 }).map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="w-1.5 bg-green-500/50 rounded-t"
+                      animate={{
+                        height: [2, Math.random() * 20 + 4, 2],
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        repeat: Infinity,
+                        delay: i * 0.05,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* Arrow */}
-        <div className="flex justify-center py-1 bg-gray-100 dark:bg-gray-900">
-          <span className="text-gray-400 text-lg">↓</span>
+        {/* Footer */}
+        <div className="h-6 border-t border-border bg-muted/40 flex items-center px-4 justify-between text-[8px] text-muted-foreground/50 tracking-wider shrink-0">
+          <span>STATUS: ACTIVE</span>
+          <span>CHATTERBOX TTS + 7-STAGE DSP</span>
         </div>
+      </motion.div>
 
-        {/* Stage 4 - DSP */}
-        <div className="voxai-stage bg-gray-50 dark:bg-gray-900 p-6 border border-gray-200 dark:border-gray-800 text-center">
-          <div className="w-14 h-14 rounded-full bg-teal-100 dark:bg-teal-900 flex items-center justify-center mx-auto mb-3">
-            <svg className="w-7 h-7 text-teal-600 dark:text-teal-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-            </svg>
-          </div>
-          <h4 className="font-semibold text-gray-900 dark:text-gray-100">7-Stage DSP Polish</h4>
-          <div className="space-y-1 mt-3 text-xs font-mono text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-950 rounded p-2">
-            <p>bass restoration</p>
-            <p>→ de-noising</p>
-            <p>→ harmonic extension</p>
-            <p>→ dynamics processing</p>
-            <p>→ room tone removal</p>
-            <p>→ LUFS normalization</p>
-            <p>→ true-peak limiting</p>
-          </div>
-        </div>
-
-        {/* Result */}
-        <div className="bg-green-50 dark:bg-green-950 p-6 rounded-b-lg border border-green-200 dark:border-green-800 text-center">
-          <div className="text-3xl mb-2">🎙️</div>
-          <h3 className="font-semibold text-green-900 dark:text-green-100">Broadcast-Quality Audio</h3>
-          <p className="text-sm text-green-700 dark:text-green-300 mt-1">Studio-grade voice cloning, ready to ship</p>
-        </div>
+      {/* Progress dots */}
+      <div className="flex gap-2 justify-center mt-3">
+        {[0, 1, 2, 3, 4].map((i) => (
+          <div
+            key={i}
+            className={`h-1 rounded-full transition-all duration-500 ${
+              step === i ? "w-6 bg-primary" : "w-1 bg-border"
+            }`}
+          />
+        ))}
       </div>
     </div>
   );

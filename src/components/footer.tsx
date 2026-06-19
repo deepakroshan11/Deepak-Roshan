@@ -1,10 +1,33 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, Variants } from "motion/react";
 import { DATA } from "@/data/resume";
 import { Icons } from "@/components/icons";
 
 export default function Footer() {
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+      },
+    },
+  };
+
   return (
     <footer className="w-screen left-1/2 -translate-x-1/2 relative mt-16 select-none overflow-hidden flex flex-col items-center">
       {/* Content wrapper with layout width max-w-6xl to move text towards corners comfortably */}
@@ -17,19 +40,26 @@ export default function Footer() {
             className="w-full h-full text-white/20"
           >
             {/* Main glowing white curve with faded ends */}
-            <path
+            <motion.path
               d="M0,115 C288,10 864,10 1152,115"
               fill="none"
               stroke="url(#footerCurveGlow)"
               strokeWidth="1.0"
-              className="opacity-95"
+              initial={{ pathLength: 0, opacity: 0 }}
+              whileInView={{ pathLength: 1, opacity: 0.95 }}
+              viewport={{ once: false, margin: "-40px" }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
             />
-            <path
+            <motion.path
               d="M0,115 C288,10 864,10 1152,115"
               fill="none"
               stroke="url(#footerCurveGlow)"
               strokeWidth="2.8"
-              className="opacity-85 blur-[1.5px]"
+              className="blur-[1.5px]"
+              initial={{ pathLength: 0, opacity: 0 }}
+              whileInView={{ pathLength: 1, opacity: 0.85 }}
+              viewport={{ once: false, margin: "-40px" }}
+              transition={{ duration: 1.8, ease: "easeInOut", delay: 0.15 }}
             />
             <defs>
               <linearGradient id="footerCurveGlow" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -44,20 +74,24 @@ export default function Footer() {
         </div>
 
         {/* Scroll Reveal animated footer content - pt-6 pushes the content below the 120px curve container */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-20px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 pt-6 pb-12 px-2"
-        >
+        <div className="w-full flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 pt-6 pb-12 px-2">
           {/* Left Side: Find me at */}
-          <div className="flex flex-col items-center sm:items-start">
-            <span className="text-xs font-semibold tracking-wider text-muted-foreground/80 uppercase mb-3.5">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, margin: "-40px" }}
+            variants={containerVariants}
+            className="flex flex-col items-center sm:items-start"
+          >
+            <motion.span
+              variants={itemVariants}
+              className="text-xs font-semibold tracking-wider text-muted-foreground/80 uppercase mb-3.5"
+            >
               Find me at:
-            </span>
+            </motion.span>
             <div className="flex items-center gap-5">
-              <a
+              <motion.a
+                variants={itemVariants}
                 href={DATA.contact.social.LinkedIn.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -65,8 +99,9 @@ export default function Footer() {
                 aria-label="LinkedIn"
               >
                 <Icons.linkedin className="size-5" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                variants={itemVariants}
                 href={DATA.contact.social.GitHub.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -74,8 +109,9 @@ export default function Footer() {
                 aria-label="GitHub"
               >
                 <Icons.github className="size-5" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                variants={itemVariants}
                 href="https://huggingface.co/deepakroshan"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -83,8 +119,9 @@ export default function Footer() {
                 aria-label="Hugging Face"
               >
                 <Icons.huggingface className="size-5.5" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                variants={itemVariants}
                 href={DATA.contact.social.YouTube.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -92,17 +129,23 @@ export default function Footer() {
                 aria-label="YouTube"
               >
                 <Icons.youtube className="size-5.5" />
-              </a>
+              </motion.a>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Side: Designed & Developed */}
-          <div className="flex flex-col items-center sm:items-end text-center sm:text-right gap-1 md:gap-1.5">
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, margin: "-40px" }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.25 }}
+            className="flex flex-col items-center sm:items-end text-center sm:text-right gap-1 md:gap-1.5"
+          >
             <p className="text-xs md:text-sm font-medium text-muted-foreground/80 tracking-wide">
               Thankyou for visiting my portfolio!
             </p>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
       {/* Spacer to reserve height in the scrollable document flow */}

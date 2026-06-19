@@ -16,6 +16,18 @@ import { projectSlug } from "@/lib/projects-route";
 import { ArrowUpRight, Box, ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SlideIn from "@/components/slide-in";
+import React from "react";
+import { FindoraAnimation } from "@/components/ProjectAnimations/FindoraAnimation";
+import { VoxAIAnimation } from "@/components/ProjectAnimations/VoxAIAnimation";
+import { ISLAnimation } from "@/components/ProjectAnimations/ISLAnimation";
+import { CloudGuardAnimation } from "@/components/ProjectAnimations/CloudGuardAnimation";
+
+const animationComponents: Record<string, React.ComponentType> = {
+  FindoraAnimation,
+  VoxAIAnimation,
+  ISLAnimation,
+  CloudGuardAnimation,
+};
 
 function ProjectLogo({ src, alt }: { src: string; alt: string }) {
   const [imageError, setImageError] = useState(false);
@@ -122,6 +134,15 @@ export default function ProjectsSection() {
               <div className="prose prose-sm max-w-full text-pretty font-sans leading-relaxed dark:prose-invert">
                 <Markdown>{project.description}</Markdown>
               </div>
+              
+              {"animationComponent" in project && project.animationComponent ? (
+                <div className="not-prose my-2 w-full">
+                  {React.createElement(
+                    animationComponents[project.animationComponent as keyof typeof animationComponents]
+                  )}
+                </div>
+              ) : null}
+
               <Link
                 href={`/works/${projectSlug(project.title)}`}
                 className="text-sm font-medium text-primary underline underline-offset-4 hover:text-primary/90 w-fit"
@@ -130,14 +151,22 @@ export default function ProjectsSection() {
                 Project page →
               </Link>
               {project.video ? (
-                <video
-                  src={project.video}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full max-h-40 rounded-lg border object-cover bg-muted sm:max-h-52"
-                />
+                project.video.endsWith(".webp") ? (
+                  <img
+                    src={project.video}
+                    alt={`${project.title} Teaser Demo`}
+                    className="w-full max-h-40 rounded-lg border object-cover bg-muted sm:max-h-52"
+                  />
+                ) : (
+                  <video
+                    src={project.video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full max-h-40 rounded-lg border object-cover bg-muted sm:max-h-52"
+                  />
+                )
               ) : null}
               <div className="flex flex-wrap gap-1">
                 {project.technologies.map((tag) => (

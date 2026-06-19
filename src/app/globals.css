@@ -1041,10 +1041,13 @@ h6 {
 
 /* ── CUSTOM SPARKLE TWINKLE ANIMATION ── */
 @keyframes sparkle-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(0.6) rotate(0deg);
     opacity: 0.15;
   }
+
   50% {
     transform: scale(1.15) rotate(180deg);
     opacity: 0.85;
@@ -1060,9 +1063,11 @@ h6 {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -1078,6 +1083,7 @@ h6 {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: 0 40px;
   }
@@ -1089,18 +1095,24 @@ h6 {
 
 /* ── SEARCHLIGHT ANIMATIONS ── */
 @keyframes searchlight-l {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: rotate(-25deg);
   }
+
   50% {
     transform: rotate(15deg);
   }
 }
 
 @keyframes searchlight-r {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: rotate(25deg);
   }
+
   50% {
     transform: rotate(-15deg);
   }
