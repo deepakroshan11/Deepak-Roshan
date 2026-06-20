@@ -197,9 +197,9 @@ export default function Navbar() {
             transition: "box-shadow 0.8s ease, border-color 0.8s ease, background-color 0.8s ease",
           }}
           className={cn(
-            "z-50 relative mx-auto min-h-[3.625rem] w-max shrink-0",
+            "z-50 relative mx-auto min-h-[3.25rem] w-max shrink-0",
             "flex flex-nowrap items-center justify-center",
-            "gap-1 px-1 py-2 sm:min-h-14 sm:gap-2 sm:px-2 sm:py-2",
+            "gap-0.5 px-1 py-1.5 sm:min-h-14 sm:gap-2 sm:px-2 sm:py-2",
             "rounded-[999px] border bg-card/90 shadow-[0_0_10px_3px] shadow-primary/5 backdrop-blur-3xl",
             "supports-[backdrop-filter]:bg-card/85"
           )}

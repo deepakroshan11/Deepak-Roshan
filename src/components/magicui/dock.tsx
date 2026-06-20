@@ -76,12 +76,12 @@ const DockIconStatic = ({ className, children, style }: DockIconProps) => {
       style={style}
       className={cn(
         "relative flex aspect-square shrink-0 items-center justify-center rounded-full",
-        /* 44px minimum touch target (WCAG / platform guidelines) */
-        "h-11 w-11 sm:h-10 sm:w-10",
+        /* 36px on mobile, 40px on sm+ */
+        "h-9 w-9 sm:h-10 sm:w-10",
         className
       )}
     >
-      <div className="flex h-6 w-6 items-center justify-center sm:h-5 sm:w-5">{children}</div>
+      <div className="flex h-5 w-5 items-center justify-center sm:h-5 sm:w-5">{children}</div>
     </div>
   );
 };

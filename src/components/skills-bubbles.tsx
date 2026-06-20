@@ -419,8 +419,14 @@ export function SkillsBubbles() {
   return (
     <div
       ref={areaRef}
+      data-lenis-prevent
       className="relative w-full overflow-hidden rounded-2xl border border-border bg-muted/20 dark:bg-[#0d1b2a]/40 backdrop-blur-md shadow-2xl select-none"
-      style={{ height: "clamp(240px, 55vw, 430px)", touchAction: "none", WebkitUserSelect: "none" }}
+      style={{
+        height: "clamp(240px, 55vw, 430px)",
+        touchAction: "none",
+        WebkitUserSelect: "none",
+        overscrollBehavior: "none",
+      }}
     >
       {/* Background glow */}
       <div

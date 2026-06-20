@@ -52,74 +52,78 @@ export default function CosmicBackdrop() {
 
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Prevent SSR mismatch for theme checks
   useEffect(() => {
     const timer = setTimeout(() => {
       setMounted(true);
+      setIsMobile(window.matchMedia("(hover: none) and (pointer: coarse)").matches);
     }, 0);
     return () => clearTimeout(timer);
   }, []);
 
   // Sky layers opacities driven by scroll
+  // On mobile, compress all thresholds by ~0.7x so animations appear with shorter scroll distance
+  const m = isMobile ? 0.70 : 1.0;
   // Layer A: Morning white/blue mixed color
-  const opacityMorning = useTransform(scrollYProgress, [0, 0.06], [1, 0]);
+  const opacityMorning = useTransform(scrollYProgress, [0, 0.06 * m], [1, 0]);
   // Layer B: Sunset Golden Evening
-  const opacityGolden = useTransform(scrollYProgress, [0, 0.08, 0.18, 0.25], [0, 1, 1, 0]);
+  const opacityGolden = useTransform(scrollYProgress, [0, 0.08 * m, 0.18 * m, 0.25 * m], [0, 1, 1, 0]);
   // Layer C: Shifting Twilight
-  const opacityTwilight = useTransform(scrollYProgress, [0.18, 0.25, 0.40, 0.48], [0, 1, 1, 0]);
+  const opacityTwilight = useTransform(scrollYProgress, [0.18 * m, 0.25 * m, 0.40 * m, 0.48 * m], [0, 1, 1, 0]);
   // Layer D: Cosmic Night (Diamond Aesthetic Silver Blue)
-  const opacityDiamondBlue = useTransform(scrollYProgress, [0.40, 0.48], [0, 1]);
+  const opacityDiamondBlue = useTransform(scrollYProgress, [0.40 * m, 0.48 * m], [0, 1]);
 
   // Sun path (rises and sets rapidly at the top, sets completely by scroll 0.24)
-  const sunX = useTransform(scrollYProgress, [0, 0.12, 0.24], ["12%", "26%", "40%"]);
-  const sunY = useTransform(scrollYProgress, [0, 0.12, 0.24], ["80%", "18%", "85%"]);
-  const sunScale = useTransform(scrollYProgress, [0, 0.12, 0.24], [0.8, 1.1, 0.7]);
-  const sunOpacity = useTransform(scrollYProgress, [0, 0.20, 0.24], [1, 1, 0]);
+  const sunX = useTransform(scrollYProgress, [0, 0.12 * m, 0.24 * m], ["12%", "26%", "40%"]);
+  const sunY = useTransform(scrollYProgress, [0, 0.12 * m, 0.24 * m], ["80%", "18%", "85%"]);
+  const sunScale = useTransform(scrollYProgress, [0, 0.12 * m, 0.24 * m], [0.8, 1.1, 0.7]);
+  const sunOpacity = useTransform(scrollYProgress, [0, 0.20 * m, 0.24 * m], [1, 1, 0]);
 
   // Moon path (rises during diamond night phase)
-  const moonX = useTransform(scrollYProgress, [0.40, 0.60, 1.0], ["82%", "68%", "58%"]);
-  const moonY = useTransform(scrollYProgress, [0.40, 0.60, 1.0], ["85%", "25%", "15%"]);
-  const moonScale = useTransform(scrollYProgress, [0.40, 0.60, 1.0], [0.75, 1.0, 1.05]);
-  const moonOpacity = useTransform(scrollYProgress, [0.40, 0.48], [0, 1]);
+  const moonX = useTransform(scrollYProgress, [0.40 * m, 0.60 * m, 1.0], ["82%", "68%", "58%"]);
+  const moonY = useTransform(scrollYProgress, [0.40 * m, 0.60 * m, 1.0], ["85%", "25%", "15%"]);
+  const moonScale = useTransform(scrollYProgress, [0.40 * m, 0.60 * m, 1.0], [0.75, 1.0, 1.05]);
+  const moonOpacity = useTransform(scrollYProgress, [0.40 * m, 0.48 * m], [0, 1]);
 
-  // Staggered multiple comets sequence (starts off-screen at top: -25%)
-  const comet1X = useTransform(scrollYProgress, [0.22, 0.24, 0.34, 0.38], ["115%", "95%", "45%", "10%"]);
-  const comet1Y = useTransform(scrollYProgress, [0.22, 0.24, 0.34, 0.38], ["-25%", "-5%", "55%", "80%"]);
-  const comet1Opacity = useTransform(scrollYProgress, [0.22, 0.235, 0.34, 0.38], [0, 1, 1, 0]);
+  // Staggered multiple comets sequence
+  const comet1X = useTransform(scrollYProgress, [0.22 * m, 0.24 * m, 0.34 * m, 0.38 * m], ["115%", "95%", "45%", "10%"]);
+  const comet1Y = useTransform(scrollYProgress, [0.22 * m, 0.24 * m, 0.34 * m, 0.38 * m], ["-25%", "-5%", "55%", "80%"]);
+  const comet1Opacity = useTransform(scrollYProgress, [0.22 * m, 0.235 * m, 0.34 * m, 0.38 * m], [0, 1, 1, 0]);
 
-  const comet2X = useTransform(scrollYProgress, [0.26, 0.28, 0.38, 0.42], ["110%", "90%", "35%", "0%"]);
-  const comet2Y = useTransform(scrollYProgress, [0.26, 0.28, 0.38, 0.42], ["-25%", "-5%", "55%", "85%"]);
-  const comet2Opacity = useTransform(scrollYProgress, [0.26, 0.275, 0.38, 0.42], [0, 1, 1, 0]);
+  const comet2X = useTransform(scrollYProgress, [0.26 * m, 0.28 * m, 0.38 * m, 0.42 * m], ["110%", "90%", "35%", "0%"]);
+  const comet2Y = useTransform(scrollYProgress, [0.26 * m, 0.28 * m, 0.38 * m, 0.42 * m], ["-25%", "-5%", "55%", "85%"]);
+  const comet2Opacity = useTransform(scrollYProgress, [0.26 * m, 0.275 * m, 0.38 * m, 0.42 * m], [0, 1, 1, 0]);
 
-  const comet3X = useTransform(scrollYProgress, [0.30, 0.32, 0.42, 0.46], ["115%", "95%", "45%", "15%"]);
-  const comet3Y = useTransform(scrollYProgress, [0.30, 0.32, 0.42, 0.46], ["-25%", "-5%", "55%", "80%"]);
-  const comet3Opacity = useTransform(scrollYProgress, [0.30, 0.315, 0.42, 0.46], [0, 1, 1, 0]);
+  const comet3X = useTransform(scrollYProgress, [0.30 * m, 0.32 * m, 0.42 * m, 0.46 * m], ["115%", "95%", "45%", "15%"]);
+  const comet3Y = useTransform(scrollYProgress, [0.30 * m, 0.32 * m, 0.42 * m, 0.46 * m], ["-25%", "-5%", "55%", "80%"]);
+  const comet3Opacity = useTransform(scrollYProgress, [0.30 * m, 0.315 * m, 0.42 * m, 0.46 * m], [0, 1, 1, 0]);
 
-  const comet4X = useTransform(scrollYProgress, [0.34, 0.36, 0.46, 0.50], ["110%", "90%", "40%", "5%"]);
-  const comet4Y = useTransform(scrollYProgress, [0.34, 0.36, 0.46, 0.50], ["-25%", "-5%", "55%", "85%"]);
-  const comet4Opacity = useTransform(scrollYProgress, [0.34, 0.355, 0.46, 0.50], [0, 1, 1, 0]);
+  const comet4X = useTransform(scrollYProgress, [0.34 * m, 0.36 * m, 0.46 * m, 0.50 * m], ["110%", "90%", "40%", "5%"]);
+  const comet4Y = useTransform(scrollYProgress, [0.34 * m, 0.36 * m, 0.46 * m, 0.50 * m], ["-25%", "-5%", "55%", "85%"]);
+  const comet4Opacity = useTransform(scrollYProgress, [0.34 * m, 0.355 * m, 0.46 * m, 0.50 * m], [0, 1, 1, 0]);
 
-  const comet5X = useTransform(scrollYProgress, [0.38, 0.40, 0.50, 0.55], ["110%", "90%", "35%", "0%"]);
-  const comet5Y = useTransform(scrollYProgress, [0.38, 0.40, 0.50, 0.55], ["-25%", "-5%", "55%", "90%"]);
-  const comet5Opacity = useTransform(scrollYProgress, [0.38, 0.395, 0.50, 0.55], [0, 1, 1, 0]);
+  const comet5X = useTransform(scrollYProgress, [0.38 * m, 0.40 * m, 0.50 * m, 0.55 * m], ["110%", "90%", "35%", "0%"]);
+  const comet5Y = useTransform(scrollYProgress, [0.38 * m, 0.40 * m, 0.50 * m, 0.55 * m], ["-25%", "-5%", "55%", "90%"]);
+  const comet5Opacity = useTransform(scrollYProgress, [0.38 * m, 0.395 * m, 0.50 * m, 0.55 * m], [0, 1, 1, 0]);
 
   // Stars opacity
-  const starsOpacity = useTransform(scrollYProgress, [0.22, 0.32], [0, 1]);
+  const starsOpacity = useTransform(scrollYProgress, [0.22 * m, 0.32 * m], [0, 1]);
 
-  // Parallax mountains vertical movement (drift down slightly, then rise at footer)
+  // Parallax mountains vertical movement
   const farMountainsY = useTransform(scrollYProgress, [0, 0.8, 1], [0, 5, -8]);
   const nearMountainsY = useTransform(scrollYProgress, [0, 0.8, 1], [0, 5, -15]);
 
-  const lightsScaleY = useTransform(scrollYProgress, [0.70, 0.92, 1.0], [0, 1, 1]);
-  const leftLightOpacity = useTransform(scrollYProgress, [0.70, 0.92, 1.0], [0, 0.90, 0.90]);
-  const rightLightOpacity = useTransform(scrollYProgress, [0.70, 0.92, 1.0], [0, 0.85, 0.85]);
+  const lightsScaleY = useTransform(scrollYProgress, [0.70 * m, 0.92 * m, 1.0], [0, 1, 1]);
+  const leftLightOpacity = useTransform(scrollYProgress, [0.70 * m, 0.92 * m, 1.0], [0, 0.90, 0.90]);
+  const rightLightOpacity = useTransform(scrollYProgress, [0.70 * m, 0.92 * m, 1.0], [0, 0.85, 0.85]);
 
   const letterTransforms = HOLLYWOOD_SIGN.map((item, i) => {
-    const startScroll = 0.72 + i * 0.012;
-    const endScroll = Math.min(startScroll + 0.08, 0.95);
+    const startScroll = (0.72 + i * 0.012) * m;
+    const endScroll = Math.min(startScroll + 0.08 * m, 0.98);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const y = useTransform(scrollYProgress, [0.65, startScroll, endScroll], [300, 300, 0]);
+    const y = useTransform(scrollYProgress, [0.65 * m, startScroll, endScroll], [300, 300, 0]);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const transform = useMotionTemplate`translateX(-50%) rotate(${item.rotate}deg) translateY(${y}px)`;
     return { transform };
@@ -484,7 +488,7 @@ export default function CosmicBackdrop() {
       {/* ── GIANT NAME & MOUNTAINS ── */}
       <motion.div
         style={{ y: nearMountainsY }}
-        className="w-screen max-w-[100vw] left-1/2 -translate-x-1/2 absolute bottom-[-60px] overflow-hidden flex justify-center items-end h-[30vh] z-30 pointer-events-none"
+        className="w-screen max-w-[100vw] left-1/2 -translate-x-1/2 absolute bottom-[-60px] overflow-hidden flex justify-center items-end h-[30vh] min-h-[180px] z-30 pointer-events-none"
       >
         {/* Far Mountain Silhouette (Purple) - lowest z-index inside name container */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-visible">
@@ -534,14 +538,15 @@ export default function CosmicBackdrop() {
                 className="absolute top-0 bottom-0 pointer-events-none"
                 style={{
                   left: `${item.left}%`,
-                  width: "clamp(2rem, 5.5vw, 5rem)",
+                  width: "clamp(1.2rem, 5.5vw, 5rem)",
                 }}
               >
                 <motion.span
-                  className="absolute inline-block text-[clamp(1.5rem,5.5vw,6.5rem)] font-bebas font-bold leading-none uppercase cursor-default select-none origin-bottom pointer-events-auto"
+                  className="absolute inline-block font-bebas font-bold leading-none uppercase cursor-default select-none origin-bottom pointer-events-auto"
                   style={{
                     bottom: `calc(${bottomPct}% - 4px)`,
                     left: "50%",
+                    fontSize: "clamp(1rem, 5.5vw, 6.5rem)",
                     transform: letterTransforms[i].transform,
                     color: "#ffffff",
                     filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))",
