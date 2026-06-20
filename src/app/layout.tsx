@@ -126,34 +126,34 @@ export default function RootLayout({
           syncopate.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+        <ThemeProvider attribute="class" defaultTheme="light">
           <TooltipProvider delayDuration={0}>
             <SmoothScroll>
-            {/* Scroll-Driven Dynamic Background */}
-            <div className="fixed inset-0 pointer-events-none z-0">
-              <CosmicBackdrop />
-            </div>
+              {/* Scroll-Driven Dynamic Background */}
+              <div className="fixed inset-0 pointer-events-none z-0">
+                <CosmicBackdrop />
+              </div>
 
-            <div className="absolute inset-0 top-0 left-0 right-0 h-[100px] overflow-hidden z-10 pointer-events-none">
-              <FlickeringGrid
-                className="h-full w-full animate-in fade-in duration-700"
-                squareSize={2}
-                gridGap={2}
-                color="rgb(30, 70, 140)"
-                maxOpacity={0.35}
-                style={{
-                  maskImage: "linear-gradient(to bottom, black, transparent)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
-                }}
-              />
-            </div>
-            <div
-              className="relative z-20 mx-auto w-full min-w-0 max-w-2xl pt-[max(4rem,calc(env(safe-area-inset-top,0px)+2.75rem))] pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] md:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] ps-[max(1.5rem,env(safe-area-inset-left,0px))] pe-[max(1.5rem,env(safe-area-inset-right,0px))] sm:ps-[max(1.5rem,env(safe-area-inset-left,0px))] sm:pe-[max(1.5rem,env(safe-area-inset-right,0px))] lg:ps-[max(2rem,env(safe-area-inset-left,0px))] lg:pe-[max(2rem,env(safe-area-inset-right,0px))]"
-            >
-              {children}
-            </div>
-            <TimeWidget />
-            <Navbar />
+              <div className="absolute inset-0 top-0 left-0 right-0 h-[100px] overflow-hidden z-10 pointer-events-none">
+                <FlickeringGrid
+                  className="h-full w-full animate-in fade-in duration-700"
+                  squareSize={2}
+                  gridGap={2}
+                  color="rgb(30, 70, 140)"
+                  maxOpacity={0.35}
+                  style={{
+                    maskImage: "linear-gradient(to bottom, black, transparent)",
+                    WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
+                  }}
+                />
+              </div>
+              <div
+                className="relative z-20 mx-auto w-full min-w-0 max-w-2xl pt-[max(4rem,calc(env(safe-area-inset-top,0px)+2.75rem))] pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] md:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] ps-[max(1.5rem,env(safe-area-inset-left,0px))] pe-[max(1.5rem,env(safe-area-inset-right,0px))] sm:ps-[max(1.5rem,env(safe-area-inset-left,0px))] sm:pe-[max(1.5rem,env(safe-area-inset-right,0px))] lg:ps-[max(2rem,env(safe-area-inset-left,0px))] lg:pe-[max(2rem,env(safe-area-inset-right,0px))]"
+              >
+                {children}
+              </div>
+              <TimeWidget />
+              <Navbar />
             </SmoothScroll>
           </TooltipProvider>
         </ThemeProvider>
