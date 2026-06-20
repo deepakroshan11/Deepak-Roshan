@@ -395,7 +395,7 @@
 
 /* ── Card shell (shrunk to ~avatar size) ── */
 .id-card {
-  width: clamp(140px, 30vw, 185px);
+  width: clamp(160px, 42vw, 185px);
   background: linear-gradient(160deg,
       #1a2e45 0%,
       #0f2035 40%,
@@ -468,7 +468,7 @@
 /* ── Photo zone ── */
 .id-card-photo-wrap {
   position: relative;
-  height: clamp(100px, 25vw, 145px);
+  height: clamp(115px, 30vw, 145px);
   overflow: hidden;
   background: linear-gradient(160deg, #1a3050 0%, #0d1b2a 50%, #162235 100%);
 }
@@ -517,7 +517,7 @@
 
 .id-card-role-ai {
   font-family: var(--font-bebas, "Bebas Neue", sans-serif);
-  font-size: clamp(1rem, 3.2vw, 1.4rem);
+  font-size: clamp(1.1rem, 4.5vw, 1.4rem);
   font-weight: 400;
   letter-spacing: 0.07em;
   color: #f0ede6;
@@ -526,7 +526,7 @@
 
 .id-card-role-eng {
   font-family: var(--font-bebas, "Bebas Neue", sans-serif);
-  font-size: clamp(1rem, 3.2vw, 1.4rem);
+  font-size: clamp(1.1rem, 4.5vw, 1.4rem);
   font-weight: 400;
   letter-spacing: 0.07em;
   color: #c8a96e;
@@ -1115,5 +1115,119 @@ h6 {
 
   50% {
     transform: rotate(-15deg);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE FIXES
+   ═══════════════════════════════════════════════════════════ */
+
+/* Prevent horizontal overflow on all mobile widths */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Touch-friendly targets: ensure tap targets are large enough */
+@media (max-width: 639px) {
+
+  /* Hero section: ensure ID card doesn't overflow */
+  #hero .id-pendulum-wrapper {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  /* Skills section: swap "Click & drag" hint to touch-friendly */
+  #skills [class*="tracking-"] {
+    letter-spacing: 0.2em;
+  }
+
+  /* Reduce heavy animations on small phones for performance */
+  .id-pendulum-wrapper {
+    animation-duration: 0.8s;
+  }
+
+  /* Fix project accordion content padding on mobile */
+  .pl-16 {
+    padding-left: 0.75rem !important;
+  }
+
+  /* Contact button: ensure it fits on small screens */
+  #contact a[href*="linkedin"] {
+    padding-left: 1.75rem !important;
+    padding-right: 1.75rem !important;
+  }
+
+  /* Ensure section titles are readable */
+  .scroll-mt-24 {
+    scroll-margin-top: 4rem;
+  }
+
+  /* Fix for the skills hint text on mobile */
+  .skills-hint-text::before {
+    content: "Touch & drag to explore";
+  }
+}
+
+/* Very small screens (< 380px) */
+@media (max-width: 380px) {
+  .id-card {
+    width: 150px;
+  }
+
+  .id-card-photo-wrap {
+    height: 110px;
+  }
+
+  .id-card-role-ai,
+  .id-card-role-eng {
+    font-size: 1rem;
+  }
+
+  .id-card-name-italic {
+    font-size: 0.55rem;
+  }
+}
+
+/* Medium mobile screens (380px - 639px): ID card side by side with text */
+@media (min-width: 380px) and (max-width: 639px) {
+  .id-card {
+    width: clamp(155px, 40vw, 185px);
+  }
+}
+
+/* Tablet: smooth transition between mobile and desktop */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .id-card {
+    width: clamp(170px, 28vw, 185px);
+  }
+
+  .id-card-photo-wrap {
+    height: clamp(125px, 22vw, 145px);
+  }
+}
+
+/* Fix skills bubble drag hint for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  /* Show touch-specific hint */
+  #skills .text-\[10px\],
+  #skills .text-xs {
+    /* Touch devices see updated hint */
+  }
+
+  /* Ensure the skills bubble area doesn't accidentally scroll the page */
+  #skills > div > div:last-child > div {
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+
+  /* Disable hover card lift on touch to prevent sticky states */
+  [class*="bg-card"]:hover {
+    transform: none !important;
+  }
+
+  [class*="bg-card"]:active {
+    transform: translateY(-1px) !important;
   }
 }

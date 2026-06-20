@@ -135,13 +135,13 @@ export function SkillsBubbles() {
     const existingWraps = area.querySelectorAll(".ball-wrap");
     existingWraps.forEach((el) => el.remove());
 
-    const ballScale = window.innerWidth < 600 ? 0.72 : window.innerWidth < 900 ? 0.85 : 1;
+    const ballScale = window.innerWidth < 400 ? 0.62 : window.innerWidth < 600 ? 0.75 : window.innerWidth < 900 ? 0.88 : 1;
 
     techs.forEach((t, i) => {
       const s = Math.round((SZ[i] || 62) * ballScale);
       const wrap = document.createElement("div");
       wrap.className = "ball-wrap";
-      wrap.style.cssText = `position:absolute;width:${s}px;height:${s}px;border-radius:50%;user-select:none;will-change:transform;z-index:1;touch-action:none;-webkit-user-select:none;cursor:grab`;
+      wrap.style.cssText = `position:absolute;width:${s}px;height:${s}px;border-radius:50%;user-select:none;will-change:transform;z-index:1;touch-action:none;-webkit-user-select:none;-ms-touch-action:none;cursor:grab`;
       wrap.title = t.n;
 
       const inner = document.createElement("div");
@@ -217,7 +217,7 @@ export function SkillsBubbles() {
         ev.preventDefault();
       });
 
-      // Touch drag
+      // Touch drag — non-passive so we can preventDefault to stop page scroll
       wrap.addEventListener(
         "touchstart",
         (ev: TouchEvent) => {
@@ -234,9 +234,10 @@ export function SkillsBubbles() {
           wrap.style.zIndex = "99";
           inner.style.boxShadow = "0 8px 28px rgba(0,0,0,.3),0 0 0 2px rgba(200,169,110,.5),inset 0 1px 0 rgba(255,255,255,.55)";
           sndClick();
+          ev.preventDefault();
           ev.stopPropagation();
         },
-        { passive: true }
+        { passive: false }
       );
     });
 
@@ -260,10 +261,12 @@ export function SkillsBubbles() {
     // Global touch move
     const handleTouchMove = (ev: TouchEvent) => {
       const r = area.getBoundingClientRect();
+      let anyDragging = false;
       for (let ti = 0; ti < ev.changedTouches.length; ti++) {
         const touch = ev.changedTouches[ti];
         balls.forEach((b) => {
           if (b.d && b.touchId === touch.identifier) {
+            anyDragging = true;
             const px = b.x;
             const py = b.y;
             b.x = touch.clientX - b.ox - r.left;
@@ -273,8 +276,8 @@ export function SkillsBubbles() {
           }
         });
       }
-      // Only prevent default on active touches inside container
-      if (ev.cancelable) ev.preventDefault();
+      // Only prevent page scroll when actually dragging a ball
+      if (anyDragging && ev.cancelable) ev.preventDefault();
     };
 
     // Mouse up
@@ -416,7 +419,8 @@ export function SkillsBubbles() {
   return (
     <div
       ref={areaRef}
-      className="relative w-full h-[280px] xs:h-[360px] md:h-[430px] overflow-hidden rounded-2xl border border-border bg-muted/20 dark:bg-[#0d1b2a]/40 backdrop-blur-md shadow-2xl touch-none select-none"
+      className="relative w-full overflow-hidden rounded-2xl border border-border bg-muted/20 dark:bg-[#0d1b2a]/40 backdrop-blur-md shadow-2xl select-none"
+      style={{ height: "clamp(240px, 55vw, 430px)", touchAction: "none", WebkitUserSelect: "none" }}
     >
       {/* Background glow */}
       <div

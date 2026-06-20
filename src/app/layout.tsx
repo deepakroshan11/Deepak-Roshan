@@ -148,7 +148,14 @@ export default function RootLayout({
                 />
               </div>
               <div
-                className="relative z-20 mx-auto w-full min-w-0 max-w-2xl pt-[max(4rem,calc(env(safe-area-inset-top,0px)+2.75rem))] pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] sm:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] md:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] ps-[max(1.5rem,env(safe-area-inset-left,0px))] pe-[max(1.5rem,env(safe-area-inset-right,0px))] sm:ps-[max(1.5rem,env(safe-area-inset-left,0px))] sm:pe-[max(1.5rem,env(safe-area-inset-right,0px))] lg:ps-[max(2rem,env(safe-area-inset-left,0px))] lg:pe-[max(2rem,env(safe-area-inset-right,0px))]"
+                className="relative z-20 mx-auto w-full min-w-0 max-w-2xl
+                  pt-[max(3rem,calc(env(safe-area-inset-top,0px)+2rem))]
+                  pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))]
+                  px-[max(1rem,env(safe-area-inset-left,0px))]
+                  sm:pt-[max(4rem,calc(env(safe-area-inset-top,0px)+2.75rem))]
+                  sm:pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))]
+                  sm:px-[max(1.5rem,env(safe-area-inset-left,0px))]
+                  lg:px-[max(2rem,env(safe-area-inset-left,0px))]"
               >
                 {children}
               </div>

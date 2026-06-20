@@ -23,30 +23,30 @@ export default function Page() {
   return (
     <main className="relative flex min-h-dvh w-full min-w-0 flex-col gap-10 sm:gap-12 md:gap-20 lg:gap-24">
       {/* Hero — ID card + copy; card sits on the right, strap extends to page top */}
-      <ScrollReveal>
-        <section id="hero" className="scroll-mt-24 md:scroll-mt-28 overflow-visible">
-          <div className="flex flex-col items-start gap-6 min-[400px]:flex-row min-[400px]:items-start sm:gap-6 md:gap-8 md:justify-between overflow-visible">
+    <ScrollReveal>
+        <section id="hero" className="scroll-mt-20 md:scroll-mt-28 overflow-visible">
+          <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-start sm:gap-6 md:gap-8 md:justify-between overflow-visible">
             <SlideIn
               inView={true}
               xOffset={80}
               yOffset={0}
               delay={0.24}
-              className="order-2 flex min-w-0 w-full flex-1 flex-col gap-3 text-left md:order-1 md:max-w-xl"
+              className="order-2 flex min-w-0 w-full flex-1 flex-col gap-3 text-left sm:order-1 md:max-w-xl"
             >
-              <h1 className="text-balance break-words text-[clamp(1.5rem,4.2vw+1rem,1.85rem)] font-bold leading-[1.12] tracking-tighter text-foreground sm:text-[clamp(1.85rem,4vw+1rem,3rem)] sm:leading-[1.08] md:text-5xl xl:text-6xl xl:leading-[1.1]">
+              <h1 className="text-balance break-words text-[clamp(1.65rem,6vw,1.85rem)] font-bold leading-[1.12] tracking-tighter text-foreground sm:text-[clamp(1.85rem,4vw+1rem,3rem)] sm:leading-[1.08] md:text-5xl xl:text-6xl xl:leading-[1.1]">
                 Hi, I&apos;m {DATA.name}
               </h1>
               <p className="text-pretty text-sm leading-[1.65] text-muted-foreground sm:text-base sm:leading-relaxed md:max-w-[550px] md:text-lg lg:text-xl">
                 {DATA.description}
               </p>
             </SlideIn>
-            {/* Pendulum ID Card — strap extends above via absolute positioning */}
+            {/* Pendulum ID Card — centered on mobile, right-side on desktop */}
             <SlideIn
               inView={true}
               xOffset={0}
               yOffset={100}
               delay={BLUR_FADE_DELAY}
-              className="order-1 shrink-0 self-start md:order-2 overflow-visible"
+              className="order-1 flex justify-center w-full sm:w-auto sm:shrink-0 sm:self-start sm:order-2 overflow-visible"
             >
               <PendulumIDCard />
             </SlideIn>
@@ -115,7 +115,8 @@ export default function Page() {
                 <h2 className={sectionTitleClass}>Skills</h2>
                 <div className="flex items-center justify-center gap-3 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-[#c8a96e] my-2">
                   <span className="h-[1px] w-6 sm:w-8 bg-[#c8a96e]/30" />
-                  Click & drag to explore
+                  <span className="hidden touch-hidden sm:inline">Click &amp; drag to explore</span>
+                  <span className="sm:hidden">Touch &amp; drag to explore</span>
                   <span className="h-[1px] w-6 sm:w-8 bg-[#c8a96e]/30" />
                 </div>
               </div>
