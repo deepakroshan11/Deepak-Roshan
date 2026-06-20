@@ -130,32 +130,41 @@ export default function ProjectsSection() {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="grid gap-3 px-4 pb-4 pl-16 text-xs text-muted-foreground sm:pl-18 sm:text-sm">
-              <div className="prose prose-sm max-w-full text-pretty font-sans leading-relaxed dark:prose-invert">
-                <Markdown>{project.description}</Markdown>
+            <AccordionContent className="grid gap-2.5 px-4 pb-4 sm:gap-3">
+              {/* Description — capped height on mobile for quick scanning */}
+              <div
+                className="prose prose-sm max-w-full text-pretty font-sans leading-relaxed dark:prose-invert"
+                style={{ fontSize: "0.8rem" }}
+              >
+                <div className="max-h-[130px] overflow-y-auto sm:max-h-none sm:overflow-visible pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-border">
+                  <Markdown>{project.description}</Markdown>
+                </div>
               </div>
-              
+
+              {/* Animation — desktop only to keep mobile compact */}
               {"animationComponent" in project && project.animationComponent ? (
-                <div className="not-prose my-2 w-full">
+                <div className="not-prose hidden sm:block my-1 w-full">
                   {React.createElement(
                     animationComponents[project.animationComponent as keyof typeof animationComponents]
                   )}
                 </div>
               ) : null}
 
+              {/* CTA to full project page */}
               <Link
                 href={`/works/${projectSlug(project.title)}`}
-                className="text-sm font-medium text-primary underline underline-offset-4 hover:text-primary/90 w-fit"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary underline underline-offset-4 hover:text-primary/80 w-fit"
                 onClick={(e) => e.stopPropagation()}
               >
-                Project page →
+                View full project →
               </Link>
+
               {project.video ? (
                 project.video.endsWith(".webp") ? (
                   <img
                     src={project.video}
                     alt={`${project.title} Teaser Demo`}
-                    className="w-full max-h-40 rounded-lg border object-cover bg-muted sm:max-h-52"
+                    className="w-full max-h-36 rounded-lg border object-cover bg-muted sm:max-h-48"
                   />
                 ) : (
                   <video
@@ -164,23 +173,25 @@ export default function ProjectsSection() {
                     loop
                     muted
                     playsInline
-                    className="w-full max-h-40 rounded-lg border object-cover bg-muted sm:max-h-52"
+                    className="w-full max-h-36 rounded-lg border object-cover bg-muted sm:max-h-48"
                   />
                 )
               ) : null}
+
               <div className="flex flex-wrap gap-1">
                 {project.technologies.map((tag) => (
                   <Badge
                     key={tag}
                     variant="outline"
-                    className="text-[11px] font-medium h-6 px-2 border-border"
+                    className="text-[10px] sm:text-[11px] font-medium h-5 sm:h-6 px-1.5 sm:px-2 border-border"
                   >
                     {tag}
                   </Badge>
                 ))}
               </div>
+
               {project.links && project.links.length > 0 ? (
-                <div className="flex flex-wrap gap-2 pb-1">
+                <div className="flex flex-wrap gap-1.5 pb-1">
                   {project.links.map((link, idx) => (
                     <Link
                       key={idx}
@@ -188,7 +199,7 @@ export default function ProjectsSection() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Badge className="flex items-center gap-1.5 text-xs bg-foreground text-background hover:bg-foreground/90 h-7 cursor-pointer">
+                      <Badge className="flex items-center gap-1 text-[10px] sm:text-xs bg-foreground text-background hover:bg-foreground/90 h-6 sm:h-7 cursor-pointer">
                         {link.icon}
                         {link.type}
                       </Badge>

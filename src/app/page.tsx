@@ -21,7 +21,7 @@ const sectionTitleClass =
 
 export default function Page() {
   return (
-    <main className="relative flex min-h-dvh w-full min-w-0 flex-col gap-10 sm:gap-12 md:gap-20 lg:gap-24">
+    <main className="relative flex min-h-dvh w-full min-w-0 flex-col gap-7 sm:gap-10 md:gap-20 lg:gap-24">
       {/* Hero — ID card + copy; card sits on the right, strap extends to page top */}
     <ScrollReveal>
         <section id="hero" className="scroll-mt-20 md:scroll-mt-28 overflow-visible">

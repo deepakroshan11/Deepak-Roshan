@@ -487,11 +487,14 @@ export default function CosmicBackdrop() {
 
       {/* ── GIANT NAME & MOUNTAINS ── */}
       <motion.div
-        style={{ y: nearMountainsY }}
-        className="w-screen max-w-[100vw] left-1/2 -translate-x-1/2 absolute bottom-[-60px] overflow-hidden flex justify-center items-end h-[30vh] min-h-[180px] z-30 pointer-events-none"
+        className="w-screen max-w-[100vw] left-1/2 -translate-x-1/2 absolute bottom-[-60px] flex justify-center items-end z-30 pointer-events-none"
+        style={{
+          y: nearMountainsY,
+          height: "clamp(220px, 38vh, 380px)",
+        }}
       >
         {/* Far Mountain Silhouette (Purple) - lowest z-index inside name container */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-visible">
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <svg
             className="w-full h-full"
             viewBox="0 0 1440 300"
@@ -507,7 +510,7 @@ export default function CosmicBackdrop() {
               d="M0 300 L0 180 L180 110 L360 210 L580 90 L850 230 L1100 130 L1280 200 L1440 150 L1440 300 Z"
               fill="url(#footerFarMountainGrad)"
             />
-            {/* Far Mountain Rim Light - dual layer stroke for glow */}
+            {/* Far Mountain Rim Light */}
             <path
               d="M0 180 L180 110 L360 210 L580 90 L850 230 L1100 130 L1280 200 L1440 150"
               fill="none"
@@ -526,7 +529,7 @@ export default function CosmicBackdrop() {
         </div>
 
         {/* Letters standing in front of Far Mountain but behind Near Mountain */}
-        <div className="absolute inset-0 z-10 pointer-events-none">
+        <div className="absolute inset-0 z-10 pointer-events-none overflow-visible">
           {HOLLYWOOD_SIGN.map((item, i) => {
             const bottomPct = item.baseHeight;
             if (item.char === " ") {
@@ -538,7 +541,7 @@ export default function CosmicBackdrop() {
                 className="absolute top-0 bottom-0 pointer-events-none"
                 style={{
                   left: `${item.left}%`,
-                  width: "clamp(1.2rem, 5.5vw, 5rem)",
+                  width: "clamp(1.5rem, 7vw, 5rem)",
                 }}
               >
                 <motion.span
@@ -546,11 +549,13 @@ export default function CosmicBackdrop() {
                   style={{
                     bottom: `calc(${bottomPct}% - 4px)`,
                     left: "50%",
-                    fontSize: "clamp(1rem, 5.5vw, 6.5rem)",
+                    /* Mobile: 9vw ≈ 35px on 390px screen. Desktop: up to 6.5rem (104px) */
+                    fontSize: "clamp(1.6rem, 9vw, 6.5rem)",
                     transform: letterTransforms[i].transform,
                     color: "#ffffff",
-                    filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))",
-                    transition: "transform 0.3s ease-out, filter 0.3s ease-out",
+                    textShadow: "0 0 12px rgba(255,255,255,0.3), 0 2px 6px rgba(0,0,0,0.6)",
+                    filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.7))",
+                    transition: "transform 0.3s ease-out",
                   }}
                 >
                   {item.char}
